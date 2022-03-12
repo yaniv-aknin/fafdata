@@ -1,4 +1,5 @@
 import flask
+import datetime
 import requests
 import urlobject
 
@@ -15,7 +16,10 @@ def index():
 @app.route('/scrape/game')
 def scrape_game():
     page_size = flask.request.args.to_dict().get('page_size', DEFAULT_PAGE_SIZE)
-    start_date = format_faf_date(flask.request.args.to_dict().get('start_date'))
+    if 'start_date' in flask.request.args:
+        start_date = format_faf_date(parse_date(flask.request.args['start_date']))
+    else:
+        start_date = format_faf_date(datetime.date.today())
     url = (
         API_BASE
         .with_path('/data/game')
