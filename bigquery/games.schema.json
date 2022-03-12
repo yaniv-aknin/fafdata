@@ -1,0 +1,35 @@
+[
+    { "mode": "NULLABLE", "name": "id", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "name", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "startTime", "type": "TIMESTAMP" },
+    { "mode": "NULLABLE", "name": "endTime", "type": "TIMESTAMP" },
+
+    { "mode": "NULLABLE", "name": "mapVersionId", "type": "STRING" },
+
+    { "mode": "NULLABLE", "name": "featuredModId", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "victoryCondition", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "validity", "type": "STRING" },
+
+    { "mode": "NULLABLE", "name": "replayAvailable", "type": "BOOLEAN" },
+    { "mode": "NULLABLE", "name": "replayUrl", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "replayTicks", "type": "STRING" },
+
+    {
+        "mode": "REPEATED", "name": "playerStats", "type": "RECORD",
+        "fields": [
+            { "mode": "NULLABLE", "name": "playerId", "type": "STRING" },
+            { "mode": "NULLABLE", "name": "startSpot", "type": "INTEGER" },
+            { "mode": "NULLABLE", "name": "scoreTime", "type": "TIMESTAMP" },
+            { "mode": "NULLABLE", "name": "team", "type": "INTEGER" },
+            { "mode": "NULLABLE", "name": "result", "type": "STRING" },
+            { "mode": "NULLABLE", "name": "beforeMean", "type": "FLOAT" },
+            { "mode": "NULLABLE", "name": "faction", "type": "INTEGER" },
+            { "mode": "NULLABLE", "name": "color", "type": "INTEGER" },
+            { "mode": "NULLABLE", "name": "afterMean", "type": "FLOAT" },
+            { "mode": "NULLABLE", "name": "beforeDeviation", "type": "FLOAT" },
+            { "mode": "NULLABLE", "name": "afterDeviation", "type": "FLOAT" },
+            { "mode": "NULLABLE", "name": "ai", "type": "BOOLEAN" },
+            { "mode": "NULLABLE", "name": "score", "type": "INTEGER" }
+        ]
+    }
+]
