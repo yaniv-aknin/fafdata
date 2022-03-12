@@ -19,11 +19,17 @@ def test_transform_game(api_dump):
     assert len(xform_game['playerStats']) == 2
     assert xform_game['playerStats'][0]['playerId'] == '405147'
 
-def test_transform_games(api_dump):
+def test_transform_many_games(api_dump):
     inclusions = index_inclusions(api_dump['included'])
     for raw_game in api_dump['data']:
         xform_game = transform_game(raw_game, inclusions)
         assert 'id' in xform_game
+
+def test_transform_null_endtime(api_dump):
+    inclusions = index_inclusions(api_dump['included'])
+    raw_game = api_dump['data'][-2] # kinda ugly to reference offset like this
+    xform_game = transform_game(raw_game, inclusions)
+    assert xform_game['endTime'] is None
 
 @pytest.fixture
 def api_dump():

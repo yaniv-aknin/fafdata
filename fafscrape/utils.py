@@ -13,5 +13,7 @@ def format_bigquery_datetime(datetime_obj):
     return datetime_obj.strftime('%Y-%m-%d %H:%M:%S')
 
 def faf_to_bigquery_datetime(datetime_string):
+    if datetime_string is None:
+        return None
     assert datetime_string[-1] == 'Z'
     return format_bigquery_datetime(datetime.datetime.fromisoformat(datetime_string[:-1]))

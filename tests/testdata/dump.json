@@ -212,7 +212,7 @@
             "type": "game",
             "id": "14395861",
             "attributes": {
-                "endTime": "2021-04-28T04:25:19Z",
+                "endTime": null,
                 "name": "WooHoo Vs Danny123456",
                 "replayAvailable": true,
                 "replayTicks": 22504,
@@ -300,7 +300,6 @@
                 }
             }
         }
-
     ],
     "meta": {
         "page": {
