@@ -1,0 +1,1670 @@
+{
+    "data": [
+        {
+            "type": "game",
+            "id": "14395974",
+            "attributes": {
+                "endTime": "2021-04-28T04:39:55Z",
+                "name": "GreatGrapes Vs Pistachios",
+                "replayAvailable": true,
+                "replayTicks": 531,
+                "replayUrl": "https://content.faforever.com/replays/0/14/39/59/14395974.fafreplay",
+                "startTime": "2021-04-28T04:38:44Z",
+                "validity": "VALID",
+                "victoryCondition": "DEMORALIZATION"
+            },
+            "relationships": {
+                "featuredMod": {
+                    "data": {
+                        "type": "featuredMod",
+                        "id": "6"
+                    }
+                },
+                "host": {
+                    "data": {
+                        "type": "player",
+                        "id": "405147"
+                    }
+                },
+                "mapVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "18852"
+                    }
+                },
+                "playerStats": {
+                    "data": [
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030408"
+                        },
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030409"
+                        }
+                    ]
+                },
+                "reviews": {
+                    "data": []
+                },
+                "reviewsSummary": {
+                    "data": null
+                }
+            }
+        },
+        {
+            "type": "game",
+            "id": "14395949",
+            "attributes": {
+                "endTime": "2021-04-28T04:53:13Z",
+                "name": "Illumnix Vs SkyKeeper",
+                "replayAvailable": true,
+                "replayTicks": 13215,
+                "replayUrl": "https://content.faforever.com/replays/0/14/39/59/14395949.fafreplay",
+                "startTime": "2021-04-28T04:29:31Z",
+                "validity": "VALID",
+                "victoryCondition": "DEMORALIZATION"
+            },
+            "relationships": {
+                "featuredMod": {
+                    "data": {
+                        "type": "featuredMod",
+                        "id": "6"
+                    }
+                },
+                "host": {
+                    "data": {
+                        "type": "player",
+                        "id": "357553"
+                    }
+                },
+                "mapVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "15579"
+                    }
+                },
+                "playerStats": {
+                    "data": [
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030363"
+                        },
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030364"
+                        }
+                    ]
+                },
+                "reviews": {
+                    "data": []
+                },
+                "reviewsSummary": {
+                    "data": null
+                }
+            }
+        },
+        {
+            "type": "game",
+            "id": "14395945",
+            "attributes": {
+                "endTime": "2021-04-28T04:35:47Z",
+                "name": "Pistachios Vs GreatGrapes",
+                "replayAvailable": true,
+                "replayTicks": 5235,
+                "replayUrl": "https://content.faforever.com/replays/0/14/39/59/14395945.fafreplay",
+                "startTime": "2021-04-28T04:26:31Z",
+                "validity": "VALID",
+                "victoryCondition": "DEMORALIZATION"
+            },
+            "relationships": {
+                "featuredMod": {
+                    "data": {
+                        "type": "featuredMod",
+                        "id": "6"
+                    }
+                },
+                "host": {
+                    "data": {
+                        "type": "player",
+                        "id": "248159"
+                    }
+                },
+                "mapVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "15398"
+                    }
+                },
+                "playerStats": {
+                    "data": [
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030352"
+                        },
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030353"
+                        }
+                    ]
+                },
+                "reviews": {
+                    "data": []
+                },
+                "reviewsSummary": {
+                    "data": null
+                }
+            }
+        },
+        {
+            "type": "game",
+            "id": "14395915",
+            "attributes": {
+                "endTime": "2021-04-28T04:23:51Z",
+                "name": "GreatGrapes Vs Level_17",
+                "replayAvailable": true,
+                "replayTicks": 8345,
+                "replayUrl": "https://content.faforever.com/replays/0/14/39/59/14395915.fafreplay",
+                "startTime": "2021-04-28T04:08:40Z",
+                "validity": "VALID",
+                "victoryCondition": "DEMORALIZATION"
+            },
+            "relationships": {
+                "featuredMod": {
+                    "data": {
+                        "type": "featuredMod",
+                        "id": "6"
+                    }
+                },
+                "host": {
+                    "data": {
+                        "type": "player",
+                        "id": "405147"
+                    }
+                },
+                "mapVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "156"
+                    }
+                },
+                "playerStats": {
+                    "data": [
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030316"
+                        },
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030317"
+                        }
+                    ]
+                },
+                "reviews": {
+                    "data": []
+                },
+                "reviewsSummary": {
+                    "data": null
+                }
+            }
+        },
+        {
+            "type": "game",
+            "id": "14395861",
+            "attributes": {
+                "endTime": "2021-04-28T04:25:19Z",
+                "name": "WooHoo Vs Danny123456",
+                "replayAvailable": true,
+                "replayTicks": 22504,
+                "replayUrl": "https://content.faforever.com/replays/0/14/39/58/14395861.fafreplay",
+                "startTime": "2021-04-28T03:44:33Z",
+                "validity": "VALID",
+                "victoryCondition": "DEMORALIZATION"
+            },
+            "relationships": {
+                "featuredMod": {
+                    "data": {
+                        "type": "featuredMod",
+                        "id": "6"
+                    }
+                },
+                "host": {
+                    "data": {
+                        "type": "player",
+                        "id": "384512"
+                    }
+                },
+                "mapVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "558"
+                    }
+                },
+                "playerStats": {
+                    "data": [
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030229"
+                        },
+                        {
+                            "type": "gamePlayerStats",
+                            "id": "28030230"
+                        }
+                    ]
+                },
+                "reviews": {
+                    "data": []
+                },
+                "reviewsSummary": {
+                    "data": null
+                }
+            }
+        }
+    ],
+    "meta": {
+        "page": {
+            "number": 1,
+            "totalRecords": 394,
+            "limit": 5,
+            "totalPages": 79
+        }
+    },
+    "included": [
+        {
+            "type": "gamePlayerStats",
+            "id": "28030408",
+            "attributes": {
+                "afterDeviation": 168.5,
+                "afterMean": 950.545,
+                "ai": false,
+                "beforeDeviation": 179.445,
+                "beforeMean": 1002.36,
+                "color": 1,
+                "faction": 4,
+                "result": "DEFEAT",
+                "score": 0,
+                "scoreTime": "2021-04-28T04:39:55Z",
+                "startSpot": 1,
+                "team": 2
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395974"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "405147"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587773"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "gamePlayerStats",
+            "id": "28030409",
+            "attributes": {
+                "afterDeviation": 67.3744,
+                "afterMean": 1163.63,
+                "ai": false,
+                "beforeDeviation": 67.2253,
+                "beforeMean": 1156.22,
+                "color": 2,
+                "faction": 1,
+                "result": "VICTORY",
+                "score": 1,
+                "scoreTime": "2021-04-28T04:39:55Z",
+                "startSpot": 2,
+                "team": 3
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395974"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "248159"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587774"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "player",
+            "id": "405147",
+            "attributes": {
+                "createTime": "2021-04-11T22:30:13Z",
+                "login": "GreatGrapes",
+                "updateTime": "2021-04-28T00:36:32Z",
+                "userAgent": "downlords-faf-client"
+            },
+            "relationships": {
+                "avatarAssignments": {
+                    "data": []
+                },
+                "bans": {
+                    "data": []
+                },
+                "clanMembership": {
+                    "data": null
+                },
+                "globalRating": {
+                    "data": {
+                        "type": "globalRating",
+                        "id": "405147"
+                    }
+                },
+                "ladder1v1Rating": {
+                    "data": {
+                        "type": "ladder1v1Rating",
+                        "id": "405147"
+                    }
+                },
+                "names": {
+                    "data": []
+                },
+                "userNotes": {
+                    "data": []
+                }
+            }
+        },
+        {
+            "type": "player",
+            "id": "248159",
+            "attributes": {
+                "createTime": "2018-04-22T06:08:41Z",
+                "login": "Pistachios",
+                "updateTime": "2021-04-28T01:31:05Z",
+                "userAgent": "downlords-faf-client"
+            },
+            "relationships": {
+                "avatarAssignments": {
+                    "data": []
+                },
+                "bans": {
+                    "data": []
+                },
+                "clanMembership": {
+                    "data": null
+                },
+                "globalRating": {
+                    "data": {
+                        "type": "globalRating",
+                        "id": "248159"
+                    }
+                },
+                "ladder1v1Rating": {
+                    "data": {
+                        "type": "ladder1v1Rating",
+                        "id": "248159"
+                    }
+                },
+                "names": {
+                    "data": [
+                        {
+                            "type": "nameRecord",
+                            "id": "18063"
+                        }
+                    ]
+                },
+                "userNotes": {
+                    "data": []
+                }
+            }
+        },
+        {
+            "type": "mapVersion",
+            "id": "18852",
+            "attributes": {
+                "createTime": "2021-03-29T17:41:00Z",
+                "description": "An artificial valley crafted with the sole purpose to be a private battle ground. \r\n\r\nMap is made by (Jip) Willem Wijnia. \r\nMap is based on a design made by Blodir.\r\n\r\nTextures are from www.textures.com or cc0textures.com. \r\n\r\nLicensed with CC-BY-SA-NC 4.0.",
+                "downloadUrl": "https://content.faforever.com/maps/autumn.v0001.zip",
+                "filename": "maps/autumn.v0001.zip",
+                "folderName": "autumn.v0001",
+                "height": 512,
+                "hidden": false,
+                "maxPlayers": 2,
+                "ranked": true,
+                "thumbnailUrlLarge": "https://content.faforever.com/maps/previews/large/autumn.v0001.png",
+                "thumbnailUrlSmall": "https://content.faforever.com/maps/previews/small/autumn.v0001.png",
+                "updateTime": "2021-03-29T17:41:00Z",
+                "version": 1,
+                "width": 512
+            },
+            "relationships": {
+                "map": {
+                    "data": {
+                        "type": "map",
+                        "id": "9982"
+                    }
+                },
+                "reviews": {
+                    "data": [
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2900"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2926"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2935"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2966"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2984"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "3017"
+                        }
+                    ]
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapVersionReviewsSummary",
+                        "id": "3115"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapVersionStatistics",
+                        "id": "18852"
+                    }
+                }
+            }
+        },
+        {
+            "type": "map",
+            "id": "9982",
+            "attributes": {
+                "battleType": "FFA",
+                "createTime": "2021-03-29T17:41:00Z",
+                "displayName": "Autumn",
+                "mapType": "skirmish",
+                "updateTime": "2021-03-29T17:41:00Z"
+            },
+            "relationships": {
+                "author": {
+                    "data": {
+                        "type": "player",
+                        "id": "32238"
+                    }
+                },
+                "latestVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "18852"
+                    }
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapReviewsSummary",
+                        "id": "9982"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapStatistics",
+                        "id": "9982"
+                    }
+                },
+                "versions": {
+                    "data": [
+                        {
+                            "type": "mapVersion",
+                            "id": "18852"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "gamePlayerStats",
+            "id": "28030363",
+            "attributes": {
+                "afterDeviation": 65.9209,
+                "afterMean": 576.003,
+                "ai": false,
+                "beforeDeviation": 65.9868,
+                "beforeMean": 588.489,
+                "color": 1,
+                "faction": 4,
+                "result": "DEFEAT",
+                "score": 0,
+                "scoreTime": "2021-04-28T04:53:13Z",
+                "startSpot": 1,
+                "team": 2
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395949"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "357553"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587791"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "gamePlayerStats",
+            "id": "28030364",
+            "attributes": {
+                "afterDeviation": 85.5535,
+                "afterMean": 544.539,
+                "ai": false,
+                "beforeDeviation": 86.8281,
+                "beforeMean": 523.126,
+                "color": 2,
+                "faction": 1,
+                "result": "VICTORY",
+                "score": 1,
+                "scoreTime": "2021-04-28T04:53:13Z",
+                "startSpot": 2,
+                "team": 3
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395949"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "400130"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587792"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "player",
+            "id": "357553",
+            "attributes": {
+                "createTime": "2020-05-05T20:54:19Z",
+                "login": "Illumnix",
+                "updateTime": "2021-04-28T04:11:36Z",
+                "userAgent": "downlords-faf-client"
+            },
+            "relationships": {
+                "avatarAssignments": {
+                    "data": []
+                },
+                "bans": {
+                    "data": []
+                },
+                "clanMembership": {
+                    "data": null
+                },
+                "globalRating": {
+                    "data": {
+                        "type": "globalRating",
+                        "id": "357553"
+                    }
+                },
+                "ladder1v1Rating": {
+                    "data": {
+                        "type": "ladder1v1Rating",
+                        "id": "357553"
+                    }
+                },
+                "names": {
+                    "data": [
+                        {
+                            "type": "nameRecord",
+                            "id": "23259"
+                        },
+                        {
+                            "type": "nameRecord",
+                            "id": "28023"
+                        }
+                    ]
+                },
+                "userNotes": {
+                    "data": []
+                }
+            }
+        },
+        {
+            "type": "player",
+            "id": "400130",
+            "attributes": {
+                "createTime": "2021-02-27T07:51:22Z",
+                "login": "SkyKeeper",
+                "updateTime": "2021-04-28T04:25:50Z",
+                "userAgent": "downlords-faf-client"
+            },
+            "relationships": {
+                "avatarAssignments": {
+                    "data": []
+                },
+                "bans": {
+                    "data": []
+                },
+                "clanMembership": {
+                    "data": null
+                },
+                "globalRating": {
+                    "data": null
+                },
+                "ladder1v1Rating": {
+                    "data": {
+                        "type": "ladder1v1Rating",
+                        "id": "400130"
+                    }
+                },
+                "names": {
+                    "data": [
+                        {
+                            "type": "nameRecord",
+                            "id": "27613"
+                        }
+                    ]
+                },
+                "userNotes": {
+                    "data": []
+                }
+            }
+        },
+        {
+            "type": "mapVersion",
+            "id": "15579",
+            "attributes": {
+                "createTime": "2020-06-01T10:49:54Z",
+                "description": "This place is unremarkable in every respect. However, it does sit on a major Gate hub, offering easy access to a good portion of the galaxy. For this reason alone, many Commanders have fought to the death to claim this place. - FAF version of the original FA map 'SCMAP_017': Ensures symmetrical marker, props and units. Contains new AI marker. - Modified by M&M, https://forums.faforever.com/viewtopic.php?f=53&t=18232",
+                "downloadUrl": "https://content.faforever.com/maps/syrtis_major_-_faf_version.v0002.zip",
+                "filename": "maps/syrtis_major_-_faf_version.v0002.zip",
+                "folderName": "syrtis_major_-_faf_version.v0002",
+                "height": 512,
+                "hidden": false,
+                "maxPlayers": 4,
+                "ranked": true,
+                "thumbnailUrlLarge": "https://content.faforever.com/maps/previews/large/syrtis_major_-_faf_version.v0002.png",
+                "thumbnailUrlSmall": "https://content.faforever.com/maps/previews/small/syrtis_major_-_faf_version.v0002.png",
+                "updateTime": "2020-06-01T10:49:54Z",
+                "version": 2,
+                "width": 512
+            },
+            "relationships": {
+                "map": {
+                    "data": {
+                        "type": "map",
+                        "id": "8552"
+                    }
+                },
+                "reviews": {
+                    "data": [
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2265"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2294"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2299"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2350"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2367"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2370"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2390"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "3039"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "3064"
+                        }
+                    ]
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapVersionReviewsSummary",
+                        "id": "2410"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapVersionStatistics",
+                        "id": "15579"
+                    }
+                }
+            }
+        },
+        {
+            "type": "map",
+            "id": "8552",
+            "attributes": {
+                "battleType": "FFA",
+                "createTime": "2020-05-12T21:28:26Z",
+                "displayName": "Syrtis Major - FAF version",
+                "mapType": "skirmish",
+                "updateTime": "2020-05-12T21:28:26Z"
+            },
+            "relationships": {
+                "author": {
+                    "data": {
+                        "type": "player",
+                        "id": "96106"
+                    }
+                },
+                "latestVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "15579"
+                    }
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapReviewsSummary",
+                        "id": "8552"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapStatistics",
+                        "id": "8552"
+                    }
+                },
+                "versions": {
+                    "data": [
+                        {
+                            "type": "mapVersion",
+                            "id": "15303"
+                        },
+                        {
+                            "type": "mapVersion",
+                            "id": "15579"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "gamePlayerStats",
+            "id": "28030352",
+            "attributes": {
+                "afterDeviation": 179.445,
+                "afterMean": 1002.36,
+                "ai": false,
+                "beforeDeviation": 194.212,
+                "beforeMean": 1073.66,
+                "color": 2,
+                "faction": 1,
+                "result": "DEFEAT",
+                "score": 0,
+                "scoreTime": "2021-04-28T04:35:47Z",
+                "startSpot": 2,
+                "team": 3
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395945"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "405147"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587771"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "gamePlayerStats",
+            "id": "28030353",
+            "attributes": {
+                "afterDeviation": 67.2253,
+                "afterMean": 1156.22,
+                "ai": false,
+                "beforeDeviation": 67.1003,
+                "beforeMean": 1147.54,
+                "color": 1,
+                "faction": 1,
+                "result": "VICTORY",
+                "score": 1,
+                "scoreTime": "2021-04-28T04:35:47Z",
+                "startSpot": 1,
+                "team": 2
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395945"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "248159"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587772"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "mapVersion",
+            "id": "15398",
+            "attributes": {
+                "createTime": "2020-05-20T14:29:55Z",
+                "description": "Brick textures from 3dtextures.me, Thanks to Anih for figuring out how to import normal maps. by biass for 1v1 and 2v2",
+                "downloadUrl": "https://content.faforever.com/maps/rusting_iron_roundel.v0003.zip",
+                "filename": "maps/rusting_iron_roundel.v0003.zip",
+                "folderName": "rusting_iron_roundel.v0003",
+                "height": 256,
+                "hidden": false,
+                "maxPlayers": 4,
+                "ranked": true,
+                "thumbnailUrlLarge": "https://content.faforever.com/maps/previews/large/rusting_iron_roundel.v0003.png",
+                "thumbnailUrlSmall": "https://content.faforever.com/maps/previews/small/rusting_iron_roundel.v0003.png",
+                "updateTime": "2020-05-20T14:29:55Z",
+                "version": 3,
+                "width": 256
+            },
+            "relationships": {
+                "map": {
+                    "data": {
+                        "type": "map",
+                        "id": "8594"
+                    }
+                },
+                "reviews": {
+                    "data": [
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1611"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1626"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1635"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2636"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2915"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2923"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2927"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2977"
+                        }
+                    ]
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapVersionReviewsSummary",
+                        "id": "1709"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapVersionStatistics",
+                        "id": "15398"
+                    }
+                }
+            }
+        },
+        {
+            "type": "map",
+            "id": "8594",
+            "attributes": {
+                "battleType": "FFA",
+                "createTime": "2020-05-20T13:50:39Z",
+                "displayName": "Rusting Iron Roundel",
+                "mapType": "skirmish",
+                "updateTime": "2020-05-20T13:50:39Z"
+            },
+            "relationships": {
+                "author": {
+                    "data": {
+                        "type": "player",
+                        "id": "125304"
+                    }
+                },
+                "latestVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "15398"
+                    }
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapReviewsSummary",
+                        "id": "8594"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapStatistics",
+                        "id": "8594"
+                    }
+                },
+                "versions": {
+                    "data": [
+                        {
+                            "type": "mapVersion",
+                            "id": "15397"
+                        },
+                        {
+                            "type": "mapVersion",
+                            "id": "15398"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "gamePlayerStats",
+            "id": "28030317",
+            "attributes": {
+                "afterDeviation": 70.8993,
+                "afterMean": 129.481,
+                "ai": false,
+                "beforeDeviation": 70.2733,
+                "beforeMean": 129.883,
+                "color": 2,
+                "faction": 1,
+                "result": "DEFEAT",
+                "score": 0,
+                "scoreTime": "2021-04-28T04:23:51Z",
+                "startSpot": 2,
+                "team": 3
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395915"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "379797"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587760"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "gamePlayerStats",
+            "id": "28030316",
+            "attributes": {
+                "afterDeviation": 194.212,
+                "afterMean": 1073.66,
+                "ai": false,
+                "beforeDeviation": 195.687,
+                "beforeMean": 1070.6,
+                "color": 1,
+                "faction": 2,
+                "result": "VICTORY",
+                "score": 1,
+                "scoreTime": "2021-04-28T04:23:51Z",
+                "startSpot": 1,
+                "team": 2
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395915"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "405147"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587759"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "player",
+            "id": "379797",
+            "attributes": {
+                "createTime": "2020-10-16T00:01:03Z",
+                "login": "Level_17",
+                "updateTime": "2021-04-28T04:50:14Z",
+                "userAgent": "downlords-faf-client"
+            },
+            "relationships": {
+                "avatarAssignments": {
+                    "data": []
+                },
+                "bans": {
+                    "data": []
+                },
+                "clanMembership": {
+                    "data": null
+                },
+                "globalRating": {
+                    "data": {
+                        "type": "globalRating",
+                        "id": "379797"
+                    }
+                },
+                "ladder1v1Rating": {
+                    "data": {
+                        "type": "ladder1v1Rating",
+                        "id": "379797"
+                    }
+                },
+                "names": {
+                    "data": []
+                },
+                "userNotes": {
+                    "data": []
+                }
+            }
+        },
+        {
+            "type": "mapVersion",
+            "id": "156",
+            "attributes": {
+                "createTime": "2014-03-22T13:33:32Z",
+                "description": "<LOC Twin Rivers_Description>\"Twin Rivers\" is a small area on Earth where many battles have taken place between Cybran and UEF commanders. The Ghetto Gunship has been the favourite UEF weapon here for many years. Made by Jiday.",
+                "downloadUrl": "https://content.faforever.com/maps/twin rivers.v0001.zip",
+                "filename": "maps/twin rivers.v0001.zip",
+                "folderName": "twin rivers.v0001",
+                "height": 512,
+                "hidden": false,
+                "maxPlayers": 6,
+                "ranked": true,
+                "thumbnailUrlLarge": "https://content.faforever.com/maps/previews/large/twin rivers.v0001.png",
+                "thumbnailUrlSmall": "https://content.faforever.com/maps/previews/small/twin rivers.v0001.png",
+                "updateTime": "2014-03-22T13:33:32Z",
+                "version": 1,
+                "width": 512
+            },
+            "relationships": {
+                "map": {
+                    "data": {
+                        "type": "map",
+                        "id": "129"
+                    }
+                },
+                "reviews": {
+                    "data": [
+                        {
+                            "type": "mapVersionReview",
+                            "id": "25"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "74"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "127"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "129"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "173"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "236"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "299"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "382"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "689"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1001"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1114"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1408"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1459"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1781"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1877"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1917"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2012"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2053"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2117"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2138"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2149"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2282"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2958"
+                        }
+                    ]
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapVersionReviewsSummary",
+                        "id": "40"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapVersionStatistics",
+                        "id": "156"
+                    }
+                }
+            }
+        },
+        {
+            "type": "map",
+            "id": "129",
+            "attributes": {
+                "battleType": "FFA",
+                "createTime": "2016-08-08T05:48:04Z",
+                "displayName": "Twin Rivers",
+                "mapType": "skirmish",
+                "updateTime": "2016-08-08T05:48:04Z"
+            },
+            "relationships": {
+                "author": {
+                    "data": null
+                },
+                "latestVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "156"
+                    }
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapReviewsSummary",
+                        "id": "129"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapStatistics",
+                        "id": "129"
+                    }
+                },
+                "versions": {
+                    "data": [
+                        {
+                            "type": "mapVersion",
+                            "id": "156"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "gamePlayerStats",
+            "id": "28030229",
+            "attributes": {
+                "afterDeviation": 66.1733,
+                "afterMean": 630.517,
+                "ai": false,
+                "beforeDeviation": 66.2239,
+                "beforeMean": 619.505,
+                "color": 1,
+                "faction": 2,
+                "result": "VICTORY",
+                "score": 1,
+                "scoreTime": "2021-04-28T04:25:19Z",
+                "startSpot": 1,
+                "team": 2
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395861"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "384512"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587761"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "gamePlayerStats",
+            "id": "28030230",
+            "attributes": {
+                "afterDeviation": 66.4759,
+                "afterMean": 602.389,
+                "ai": false,
+                "beforeDeviation": 66.5414,
+                "beforeMean": 613.505,
+                "color": 2,
+                "faction": 3,
+                "result": "DEFEAT",
+                "score": 0,
+                "scoreTime": "2021-04-28T04:25:19Z",
+                "startSpot": 2,
+                "team": 3
+            },
+            "relationships": {
+                "game": {
+                    "data": {
+                        "type": "game",
+                        "id": "14395861"
+                    }
+                },
+                "player": {
+                    "data": {
+                        "type": "player",
+                        "id": "133850"
+                    }
+                },
+                "ratingChanges": {
+                    "data": [
+                        {
+                            "type": "leaderboardRatingJournal",
+                            "id": "12587762"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "player",
+            "id": "384512",
+            "attributes": {
+                "createTime": "2020-11-11T00:39:28Z",
+                "login": "WooHoo",
+                "updateTime": "2021-04-28T03:29:11Z",
+                "userAgent": "downlords-faf-client"
+            },
+            "relationships": {
+                "avatarAssignments": {
+                    "data": []
+                },
+                "bans": {
+                    "data": []
+                },
+                "clanMembership": {
+                    "data": null
+                },
+                "globalRating": {
+                    "data": {
+                        "type": "globalRating",
+                        "id": "384512"
+                    }
+                },
+                "ladder1v1Rating": {
+                    "data": {
+                        "type": "ladder1v1Rating",
+                        "id": "384512"
+                    }
+                },
+                "names": {
+                    "data": []
+                },
+                "userNotes": {
+                    "data": []
+                }
+            }
+        },
+        {
+            "type": "player",
+            "id": "133850",
+            "attributes": {
+                "createTime": "2015-03-22T03:27:01Z",
+                "login": "Danny123456",
+                "updateTime": "2021-04-28T03:41:00Z",
+                "userAgent": "downlords-faf-client"
+            },
+            "relationships": {
+                "avatarAssignments": {
+                    "data": []
+                },
+                "bans": {
+                    "data": []
+                },
+                "clanMembership": {
+                    "data": null
+                },
+                "globalRating": {
+                    "data": {
+                        "type": "globalRating",
+                        "id": "133850"
+                    }
+                },
+                "ladder1v1Rating": {
+                    "data": {
+                        "type": "ladder1v1Rating",
+                        "id": "133850"
+                    }
+                },
+                "names": {
+                    "data": []
+                },
+                "userNotes": {
+                    "data": []
+                }
+            }
+        },
+        {
+            "type": "mapVersion",
+            "id": "558",
+            "attributes": {
+                "createTime": "2014-03-22T13:17:29Z",
+                "description": "<LOC SCMP_007_Description>A small strip of green surrounded by ice and snow, no one is really sure who first called this area Open Palms. Legend has it that originally this was neutral ground, where soldiers of any faction could come without fear of attack. Hence, all who came had 'open palms,' meaning no weapons were carried.",
+                "downloadUrl": "https://content.faforever.com/maps/scmp_007.zip",
+                "filename": "maps/scmp_007.zip",
+                "folderName": "scmp_007",
+                "height": 512,
+                "hidden": true,
+                "maxPlayers": 6,
+                "ranked": true,
+                "thumbnailUrlLarge": "https://content.faforever.com/maps/previews/large/scmp_007.png",
+                "thumbnailUrlSmall": "https://content.faforever.com/maps/previews/small/scmp_007.png",
+                "updateTime": "2014-03-22T13:17:29Z",
+                "version": 3,
+                "width": 512
+            },
+            "relationships": {
+                "map": {
+                    "data": {
+                        "type": "map",
+                        "id": "431"
+                    }
+                },
+                "reviews": {
+                    "data": [
+                        {
+                            "type": "mapVersionReview",
+                            "id": "500"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "531"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "706"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "714"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "950"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1188"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1338"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1412"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "1916"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2005"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2052"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2063"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2153"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2168"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2281"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2526"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2562"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2689"
+                        },
+                        {
+                            "type": "mapVersionReview",
+                            "id": "2855"
+                        }
+                    ]
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapVersionReviewsSummary",
+                        "id": "503"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapVersionStatistics",
+                        "id": "558"
+                    }
+                }
+            }
+        },
+        {
+            "type": "map",
+            "id": "431",
+            "attributes": {
+                "battleType": "FFA",
+                "createTime": "2016-08-08T05:48:04Z",
+                "displayName": "Open Palms",
+                "mapType": "skirmish",
+                "updateTime": "2016-08-08T05:48:04Z"
+            },
+            "relationships": {
+                "author": {
+                    "data": null
+                },
+                "latestVersion": {
+                    "data": {
+                        "type": "mapVersion",
+                        "id": "558"
+                    }
+                },
+                "reviewsSummary": {
+                    "data": {
+                        "type": "mapReviewsSummary",
+                        "id": "431"
+                    }
+                },
+                "statistics": {
+                    "data": {
+                        "type": "mapStatistics",
+                        "id": "431"
+                    }
+                },
+                "versions": {
+                    "data": [
+                        {
+                            "type": "mapVersion",
+                            "id": "558"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
