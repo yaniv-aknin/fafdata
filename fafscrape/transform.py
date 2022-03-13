@@ -1,5 +1,12 @@
 from .utils import faf_to_bigquery_datetime
 
+TRANSFORMATIONS = {}
+def transforms(entity):
+    def decorator(func):
+        TRANSFORMATIONS[entity] = func
+        return func
+    return decorator
+
 def index_inclusions(inclusions):
     result = {}
     for inclusion in inclusions:
@@ -13,6 +20,7 @@ def index_inclusions(inclusions):
 def get_included(inclusions, i_type, i_id):
     return inclusions[i_type][i_id]
 
+@transforms('game')
 def transform_game(game, inclusions):
     result = game['attributes'].copy()
     result['endTime'] = faf_to_bigquery_datetime(result['endTime'])
@@ -31,7 +39,8 @@ def transform_game(game, inclusions):
         result['playerStats'].append(record)
     return result
 
-def process_games_page(page):
+def process_page(page):
+    single_entity_transformer = TRANSFORMATIONS[page['data'][0]['type']]
     inclusions = index_inclusions(page['included'])
-    for raw_game in page['data']:
-        yield transform_game(raw_game, inclusions)
+    for entity in page['data']:
+        yield single_entity_transformer(entity, inclusions)

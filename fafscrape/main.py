@@ -4,7 +4,7 @@ import functools
 import json
 import click
 
-from .transform import transform_game, index_inclusions
+from .transform import process_page
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
 from .utils import parse_date, is_dir_populated
 
@@ -14,11 +14,9 @@ from .utils import parse_date, is_dir_populated
 def transform_api_dump_to_jsonl(inputs, output):
     with click.progressbar(inputs, label='Transforming') as bar:
         for input in bar:
-            raw = json.load(input)
-            inclusions = index_inclusions(raw['included'])
-            for game in raw['data']:
-                assert game['type'] == 'game'
-                output.write(json.dumps(transform_game(game, inclusions)) + '\n')
+            page = json.load(input)
+            for xform_entity in process_page(page):
+                output.write(json.dumps(xform_entity) + '\n')
             input.close()
         output.close()
 

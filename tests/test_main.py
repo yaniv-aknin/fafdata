@@ -6,8 +6,18 @@ import testutils
 import pytest
 import json
 
-from fafscrape.main import extract_from_faf_api
+from fafscrape.main import extract_from_faf_api, transform_api_dump_to_jsonl
 
+def test_transform_api_dump_to_jsonl():
+    dump_path = testutils.testdata / 'dump.json'
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'xformed.json'])
+        assert result.exit_code == 0
+        with open('xformed.json') as handle:
+            xformed = json.loads(handle.readline())
+            assert xformed['id'] == '14395974'
+            assert xformed['mapVersionId'] == '18852'
 
 @responses.activate
 def test_extract_from_faf_api(api_dump):

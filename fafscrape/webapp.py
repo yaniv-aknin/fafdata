@@ -4,7 +4,7 @@ import flask
 import requests
 
 from .fetch import construct_url, yield_pages
-from .transform import process_games_page
+from .transform import process_page
 from .utils import parse_date, DEFAULT_TWO_DAYS_AGO, DEFAULT_ONE_DAY_AGO
 
 DEFAULT_PAGE_SIZE=10
@@ -31,7 +31,7 @@ def scrape_games():
         for page in yield_pages(constructor, max_pages=max_pages):
             meta = page['meta']['page']
             app.logger.info('processing page %d of %d (%d rows)', meta['number'], meta['totalPages'], meta['totalRecords'])
-            for game in process_games_page(page):
+            for game in process_page(page):
                 yield (json.dumps(game) + '\n')
     constructor = functools.partial(construct_url, 'game', ['playerStats'], 'endTime', page_size, start_date, end_date)
     body = generate(constructor, max_pages)
