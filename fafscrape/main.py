@@ -30,10 +30,11 @@ def faf_dump_to_bigquery_jsonl(inputs, output):
 @click.option('--start-date', help='Query first date; %Y-%m-%d for specific day or "-N" for N days ago', default='-2')
 @click.option('--end-date', help='Query last date; %Y-%m-%d for specific day or "-N" for N days ago', default='-1')
 @click.option('--page-size', type=click.INT, default=10, help='How many entities per page')
+@click.option('--start-page', type=click.INT, default=1, help='Which page to start at (i.e., resume)')
 @click.option('--max-pages', type=click.INT, default=10, help='Stop download after this many pages')
 @click.option('--include', multiple=True, help='Which related entities to include')
 @click.option('--pretty-json/--no-pretty-json', default=True)
-def scrape_faf_api(output, entity, date_field, start_date, end_date, page_size, max_pages, include, pretty_json):
+def scrape_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json):
     if is_dir_populated(output):
         click.confirm(f"{output} isn't empty. Do you want to continue?", abort=True)
 
@@ -46,13 +47,13 @@ def scrape_faf_api(output, entity, date_field, start_date, end_date, page_size, 
     end_date = parse_date(end_date)
 
     url_constructor = functools.partial(construct_url, entity, include, date_field, page_size, start_date, end_date)
-    generator = yield_pages(url_constructor, max_pages=max_pages)
+    generator = yield_pages(url_constructor, start_page, max_pages=max_pages)
 
     first_page = next(generator)
     length = min(max_pages, first_page['meta']['page']['totalPages'])
     with click.progressbar(length=length, label='Scraping API') as bar:
-        write_json(output / 'dump0001.json', first_page, pretty_json)
-        bar.update(1)
-        for counter, page in enumerate(generator, 2):
+        write_json(output / f'dump{start_page:04d}.json', first_page, pretty_json)
+        bar.update(start_page)
+        for counter, page in enumerate(generator, start_page+1):
             write_json(output / f'dump{counter:04d}.json', page, pretty_json)
             bar.update(counter)
