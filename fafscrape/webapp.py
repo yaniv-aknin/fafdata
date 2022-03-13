@@ -29,4 +29,7 @@ def scrape_games():
     max_pages = int(flask.request.args.get('max_pages', 0)) or float('inf')
     start_date = parse_date(flask.request.args.get('start_date', DEFAULT_TWO_DAYS_AGO))
     constructor = functools.partial(construct_url, 'game', ['playerStats'], 'endTime', start_date, page_size)
-    return app.response_class(generate(constructor, max_pages), mimetype='application/jsonl+json')
+    body = generate(constructor, max_pages)
+    if app.debug:
+        body = "".join(body)
+    return app.response_class(body, mimetype='application/jsonl+json')
