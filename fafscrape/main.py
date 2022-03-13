@@ -6,7 +6,7 @@ import click
 
 from .transform import transform_game, index_inclusions
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
-from .utils import parse_date
+from .utils import parse_date, is_dir_populated
 
 @click.command()
 @click.argument('inputs', type=click.File('r', lazy=True), nargs=-1)
@@ -34,6 +34,9 @@ def faf_dump_to_bigquery_jsonl(inputs, output):
 @click.option('--include', multiple=True, help='Which related entities to include')
 @click.option('--pretty-json/--no-pretty-json', default=True)
 def scrape_faf_api(output, entity, date_field, start_date, end_date, page_size, max_pages, include, pretty_json):
+    if is_dir_populated(output):
+        click.confirm(f"{output} isn't empty. Do you want to continue?", abort=True)
+
     if date_field is None:
         if entity not in ENTITY_TYPE_TO_DEFAULT_DATE_FIELD:
             raise click.BadParameter(f'entity {entity} requires specifying a date field')

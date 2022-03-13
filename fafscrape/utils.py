@@ -22,3 +22,6 @@ def faf_to_bigquery_datetime(datetime_string):
         return None
     assert datetime_string[-1] == 'Z'
     return format_bigquery_datetime(datetime.datetime.fromisoformat(datetime_string[:-1]))
+
+def is_dir_populated(pathlib_path):
+    return any(pathlib_path.iterdir())
