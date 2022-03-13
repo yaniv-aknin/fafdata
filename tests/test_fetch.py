@@ -30,6 +30,9 @@ def test_construct_url():
     # desc
     assert '&sort=-timefield' in construct_url('entity', ['include'], 'timefield', START_DATE, 10, page_number=1, sort='DESC', api_base=API_BASE)
 
+    # zero inclusions
+    assert 'include=' not in construct_url('entity', [], 'timefield', START_DATE, 10, api_base=API_BASE)
+
     # two inclusions
     assert 'incA%2CincB' in construct_url('entity', ['incA', 'incB'], 'timefield', START_DATE, 10, api_base=API_BASE)
 

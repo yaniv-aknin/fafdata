@@ -18,7 +18,8 @@ def construct_url(entity, include, date_field, start_date, page_size, page_numbe
     url = url.add_query_param('page[number]', page_number)
     url = url.add_query_param('page[totals]', '')
     url = url.add_query_param('filter', f'{date_field}=ge={start_date}')
-    url = url.add_query_param('include', ','.join(include))
+    if include:
+        url = url.add_query_param('include', ','.join(include))
     url = url.add_query_param('sort', f'-{date_field}' if sort == 'DESC' else f'{date_field}')
     return url
 
