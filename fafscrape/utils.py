@@ -1,6 +1,9 @@
 import datetime
 
 def parse_date(date_string):
+    if date_string.startswith('-'):
+        days = int(date_string[1:])
+        return datetime.date.today() - datetime.timedelta(days=days)
     return datetime.datetime.strptime(date_string, '%Y-%m-%d')
 
 def format_faf_date(date):

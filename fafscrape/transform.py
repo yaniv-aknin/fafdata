@@ -30,3 +30,8 @@ def transform_game(game, inclusions):
         record['playerId'] = player_stats['relationships']['player']['data']['id']
         result['playerStats'].append(record)
     return result
+
+def process_games_page(page):
+    inclusions = index_inclusions(page['included'])
+    for raw_game in page['data']:
+        yield transform_game(raw_game, inclusions)
