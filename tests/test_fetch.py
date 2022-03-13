@@ -1,7 +1,12 @@
 import datetime
 import urlobject
 
-from fafscrape.fetch import construct_url
+import responses
+import requests
+
+import pytest
+
+from fafscrape.fetch import construct_url, fetch_page
 
 START_DATE = datetime.date(1970, 1, 1)
 API_BASE = urlobject.URLObject('http://test')
@@ -27,3 +32,12 @@ def test_construct_url():
 
     # two inclusions
     assert 'incA%2CincB' in construct_url('entity', ['incA', 'incB'], 'timefield', START_DATE, 10, api_base=API_BASE)
+
+@responses.activate
+def test_fetch_page():
+    responses.add(method='GET', url='http://test', json={'foo': 'bar'})
+    assert fetch_page('http://test')['foo'] == 'bar'
+
+    responses.add(method='GET', url='http://test', json={'errors': 'not found'}, status=404)
+    with pytest.raises(requests.exceptions.HTTPError):
+        page = fetch_page('http://test')   
