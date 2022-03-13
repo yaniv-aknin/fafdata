@@ -11,7 +11,7 @@ from .utils import parse_date, is_dir_populated
 @click.command()
 @click.argument('inputs', type=click.File('r', lazy=True), nargs=-1)
 @click.argument('output', type=click.File('w'), nargs=1)
-def faf_dump_to_bigquery_jsonl(inputs, output):
+def transform_api_dump_to_jsonl(inputs, output):
     with click.progressbar(inputs, label='Transforming') as bar:
         for input in bar:
             raw = json.load(input)
@@ -34,7 +34,7 @@ def faf_dump_to_bigquery_jsonl(inputs, output):
 @click.option('--max-pages', type=click.INT, default=10, help='Stop download after this many pages')
 @click.option('--include', multiple=True, help='Which related entities to include')
 @click.option('--pretty-json/--no-pretty-json', default=True)
-def scrape_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json):
+def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json):
     if is_dir_populated(output):
         click.confirm(f"{output} isn't empty. Do you want to continue?", abort=True)
 

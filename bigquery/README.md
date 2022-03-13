@@ -10,7 +10,7 @@ bq mk --table \
     --time_partitioning_type MONTH \
     faf.games ./bigquery/games.schema.json
 
-# Assume you transformed data with: faf_dump_to_bigquery_jsonl path_to_raw_api_dump.json transformed_dump.jsonl
+# Assume you transformed data with: transform_api_dump_to_jsonl path_to_raw_api_dump.json transformed_dump.jsonl
 bq load \
     --source_format=NEWLINE_DELIMITED_JSON \
     faf.games transformed_dump.jsonl
@@ -21,7 +21,7 @@ bq load \
 To create the table schema, I've used BigQuery autodetection feature, and then edited it manually (so the order of fields etc makes more sense).
 
 ```bash
-# Assume you transformed data with: faf_dump_to_bigquery_jsonl path_to_raw_api_dump.json transformed_dump.jsonl
+# Assume you transformed data with: transform_api_dump_to_jsonl path_to_raw_api_dump.json transformed_dump.jsonl
 bq load --autodetect --source_format=NEWLINE_DELIMITED_JSON faf.games transformed_dump.jsonl
 
 # the output includes the schema in JSON format
