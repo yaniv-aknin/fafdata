@@ -14,6 +14,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     entry_points = {
-        'console_scripts': ['faf_dump_to_bigquery_jsonl=fafscrape.main:faf_dump_to_bigquery_jsonl'],
+        'console_scripts': ['faf_dump_to_bigquery_jsonl=fafscrape.main:faf_dump_to_bigquery_jsonl',
+                            'scrape_faf_api=fafscrape.main:scrape_faf_api'],
     }
 )

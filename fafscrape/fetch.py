@@ -1,3 +1,4 @@
+import json
 import datetime
 import requests
 import urlobject
@@ -5,6 +6,10 @@ import urlobject
 from .utils import format_faf_date
 
 API_BASE = urlobject.URLObject('https://api.faforever.com')
+
+ENTITY_TYPE_TO_DEFAULT_DATE_FIELD = {
+    'game': 'endTime',
+}
 
 def construct_url(entity, include, date_field, start_date, page_size, page_number=1, sort='ASC', api_base=API_BASE):
     start_date = format_faf_date(start_date or datetime.date.today())
@@ -30,3 +35,7 @@ def yield_pages(url_constructor, start_page=1, max_pages=float('inf')):
     while current_page < max_pages:
         current_page += 1
         yield fetch_page(url_constructor(page_number=current_page))
+
+def write_json(path, doc, pretty):
+    with open(path, 'w') as handle:
+        json.dump(doc, handle, indent=(4 if pretty else None))
