@@ -1,5 +1,8 @@
 import datetime
 
+DEFAULT_TWO_DAYS_AGO='-2'
+DEFAULT_ONE_DAY_AGO='-1'
+
 def parse_date(date_string):
     if date_string.startswith('-'):
         days = int(date_string[1:])

@@ -27,23 +27,22 @@ def faf_dump_to_bigquery_jsonl(inputs, output):
 @click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path))
 @click.argument('entity')
 @click.option('--date-field', help='When specifying dates, which entity field should be used for comparison')
-@click.option('--start-date', type=click.DateTime(formats=["%Y-%m-%d"]))
+@click.option('--start-date', help='Query first date; %Y-%m-%d for specific day or "-N" for N days ago', default='-2')
+@click.option('--end-date', help='Query last date; %Y-%m-%d for specific day or "-N" for N days ago', default='-1')
 @click.option('--page-size', type=click.INT, default=10, help='How many entities per page')
 @click.option('--max-pages', type=click.INT, default=10, help='Stop download after this many pages')
 @click.option('--include', multiple=True, help='Which related entities to include')
 @click.option('--pretty-json/--no-pretty-json', default=True)
-def scrape_faf_api(output, entity, date_field, start_date, page_size, max_pages, include, pretty_json):
+def scrape_faf_api(output, entity, date_field, start_date, end_date, page_size, max_pages, include, pretty_json):
     if date_field is None:
         if entity not in ENTITY_TYPE_TO_DEFAULT_DATE_FIELD:
             raise click.BadParameter(f'entity {entity} requires specifying a date field')
         date_field = ENTITY_TYPE_TO_DEFAULT_DATE_FIELD[entity]
 
-    if type(start_date) is datetime.datetime:
-        start_date = start_date.date() # there is no builtin click.Date(), so just chop off time
-    else:
-        start_date = parse_date('-1') # chooses "yesterday"
+    start_date = parse_date(start_date)
+    end_date = parse_date(end_date)
 
-    url_constructor = functools.partial(construct_url, entity, include, date_field, start_date, page_size)
+    url_constructor = functools.partial(construct_url, entity, include, date_field, page_size, start_date, end_date)
     generator = yield_pages(url_constructor, max_pages=max_pages)
 
     first_page = next(generator)

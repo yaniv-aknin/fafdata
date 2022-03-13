@@ -11,13 +11,17 @@ ENTITY_TYPE_TO_DEFAULT_DATE_FIELD = {
     'game': 'endTime',
 }
 
-def construct_url(entity, include, date_field, start_date, page_size, page_number=1, sort='ASC', api_base=API_BASE):
-    start_date = format_faf_date(start_date or datetime.date.today())
+def construct_url(entity, include, date_field, page_size, start_date, end_date, page_number=1, sort='ASC', api_base=API_BASE):
     url = api_base.with_path(f'/data/{entity}')
     url = url.add_query_param('page[size]', page_size)
     url = url.add_query_param('page[number]', page_number)
     url = url.add_query_param('page[totals]', '')
-    url = url.add_query_param('filter', f'{date_field}=ge={start_date}')
+    filters = []
+    start_date = format_faf_date(start_date)
+    filters.append(f'{date_field}=ge={start_date}')
+    end_date = format_faf_date(end_date)
+    filters.append(f'{date_field}=le={end_date}')
+    url = url.add_query_param('filter', ';'.join(filters))
     if include:
         url = url.add_query_param('include', ','.join(include))
     url = url.add_query_param('sort', f'-{date_field}' if sort == 'DESC' else f'{date_field}')
