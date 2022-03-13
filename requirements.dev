@@ -1,0 +1,5 @@
+pudb
+py
+pytest
+pytest-pudb
+responses
