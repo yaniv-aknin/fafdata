@@ -8,16 +8,28 @@ import json
 
 from fafscrape.main import extract_from_faf_api, transform_api_dump_to_jsonl
 
-def test_transform_api_dump_to_jsonl():
+def read_jsonl(path, num_lines):
+    with open(path) as handle:
+        return [json.loads(handle.readline()) for x in range(num_lines)]
+
+def test_transform_api_dump_to_jsonl_game():
     dump_path = testutils.testdata / 'dump.json'
     runner = CliRunner()
     with runner.isolated_filesystem():
-        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'xformed.json'])
+        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'xformed.jsonl'])
         assert result.exit_code == 0
-        with open('xformed.json') as handle:
-            xformed = json.loads(handle.readline())
-            assert xformed['id'] == '14395974'
-            assert xformed['mapVersionId'] == '18852'
+        xformed, = read_jsonl('xformed.jsonl', 1)
+        assert xformed['id'] == '14395974'
+        assert xformed['mapVersionId'] == '18852'
+
+def test_transform_api_dump_to_jsonl_player():
+    dump_path = testutils.testdata / 'players.json'
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'xformed.jsonl'])
+        assert result.exit_code == 0
+        xformed, = read_jsonl('xformed.jsonl', 1)
+        assert xformed['id'] == '368434'
 
 @responses.activate
 def test_extract_from_faf_api(api_dump):

@@ -1,6 +1,6 @@
 # BigQuery management commands
 
-Starting from an empty GCP project, these are the commands I used to create the table.
+Starting from an empty GCP project, these are the commands I used to load the games table.
 
 ```bash
 bq mk --dataset faf
@@ -15,6 +15,10 @@ bq load \
     --source_format=NEWLINE_DELIMITED_JSON \
     faf.games transformed_dump.jsonl
 ```
+
+## Creating other tables
+
+As I add support for more tables, I'll create more schema files under the `./bigquery` directory. They can be loaded the same way.
 
 ## Creating table schema
 

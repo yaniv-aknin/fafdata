@@ -1,0 +1,7 @@
+[
+    { "mode": "NULLABLE", "name": "id", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "login", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "updateTime", "type": "TIMESTAMP" },
+    { "mode": "NULLABLE", "name": "createTime", "type": "TIMESTAMP" },
+    { "mode": "NULLABLE", "name": "userAgent", "type": "STRING" }
+]

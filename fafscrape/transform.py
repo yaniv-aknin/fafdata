@@ -39,8 +39,16 @@ def transform_game(game, inclusions):
         result['playerStats'].append(record)
     return result
 
+@transforms('player')
+def transform_player(player, inclusions):
+    result = player['attributes'].copy()
+    result['createTime'] = faf_to_bigquery_datetime(result['createTime'])
+    result['updateTime'] = faf_to_bigquery_datetime(result['updateTime'])
+    result['id'] = player['id']
+    return result
+
 def process_page(page):
     single_entity_transformer = TRANSFORMATIONS[page['data'][0]['type']]
-    inclusions = index_inclusions(page['included'])
+    inclusions = index_inclusions(page.get('included', {}))
     for entity in page['data']:
         yield single_entity_transformer(entity, inclusions)
