@@ -19,7 +19,7 @@ def test_scrape_faf_api(api_dump):
         os.mkdir('output')
         result = runner.invoke(scrape_faf_api, ['output', 'game', '--start-date=1970-01-01', '--end-date=1970-01-01', '--max-pages=1'])
         assert result.exit_code == 0
-        assert os.listdir('output') == ['dump0001.json']
+        assert os.listdir('output') == ['game0001.json']
 
 @responses.activate
 def test_scrape_faf_api_date_field(api_dump):
