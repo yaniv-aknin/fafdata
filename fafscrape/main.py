@@ -41,6 +41,7 @@ def invocation_metadata(**kwargs):
 @click.option('--include', multiple=True, help='Which related entities to include')
 @click.option('--pretty-json/--no-pretty-json', default=True)
 def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json):
+    max_pages = max_pages or float('inf')
     if is_dir_populated(output):
         click.confirm(f"{output} isn't empty. Do you want to continue?", abort=True)
 
@@ -56,7 +57,7 @@ def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_
     generator = yield_pages(url_constructor, start_page, max_pages=max_pages)
 
     with open(output/f'{entity}.metadata.json', 'w') as handle:
-        metadata = invocation_metadata(start_date=start_date, end_date=end_date, date_field=date_field,
+        metadata = invocation_metadata(start_date=start_date, end_date=end_date, date_field=date_field, max_pages=max_pages,
                                        sample_url=url_constructor(page_number=start_page))
         json.dump(metadata, handle, indent=4)
 
