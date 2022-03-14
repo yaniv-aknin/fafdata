@@ -62,10 +62,10 @@ def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_
         json.dump(metadata, handle, indent=4)
 
     first_page = next(generator)
-    length = min(max_pages, first_page['meta']['page']['totalPages'])
+    length = min(max_pages, first_page['meta']['page']['totalPages']) - start_page
     with click.progressbar(length=length, label='Scraping API') as bar:
         write_json(output / f'{entity}{start_page:04d}.json', first_page, pretty_json)
-        bar.update(start_page)
+        bar.update(1)
         for counter, page in enumerate(generator, start_page+1):
             write_json(output / f'{entity}{counter:04d}.json', page, pretty_json)
-            bar.update(counter)
+            bar.update(1)
