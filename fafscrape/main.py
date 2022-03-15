@@ -7,18 +7,18 @@ import click
 
 from .transform import process_page
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
-from .utils import parse_date, is_dir_populated
+from .utils import parse_date, is_dir_populated, decompressed
 
 @click.command()
-@click.argument('inputs', type=click.File('r', lazy=True), nargs=-1)
+@click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
 @click.argument('output', type=click.File('w'), nargs=1)
 def transform_api_dump_to_jsonl(inputs, output):
     with click.progressbar(inputs, label='Transforming') as bar:
         for input in bar:
-            page = json.load(input)
-            for xform_entity in process_page(page):
-                output.write(json.dumps(xform_entity) + '\n')
-            input.close()
+            with decompressed(input) as handle:
+                page = json.load(handle)
+                for xform_entity in process_page(page):
+                    output.write(json.dumps(xform_entity) + '\n')
         output.close()
 
 def invocation_metadata(**kwargs):

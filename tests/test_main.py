@@ -21,6 +21,10 @@ def test_transform_api_dump_to_jsonl_game():
         xformed, = read_jsonl('xformed.jsonl', 1)
         assert xformed['id'] == '14395974'
         assert xformed['mapVersionId'] == '18852'
+    with runner.isolated_filesystem():
+        os.system(f'cp {dump_path} . && gzip dump.json')
+        result = runner.invoke(transform_api_dump_to_jsonl, ['dump.json.gz', 'xformed.jsonl'])
+        assert result.exit_code == 0
 
 def test_transform_api_dump_to_jsonl_player():
     dump_path = testutils.testdata / 'players.json'
