@@ -13,7 +13,7 @@ from .utils import parse_date, is_dir_populated, decompressed
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
 @click.argument('output', type=click.File('w'), nargs=1)
 def transform_api_dump_to_jsonl(inputs, output):
-    with click.progressbar(inputs, label='Transforming') as bar:
+    with click.progressbar(inputs, label='Transforming', file=sys.stderr) as bar:
         for input in bar:
             with decompressed(input) as handle:
                 page = json.load(handle)
@@ -63,7 +63,7 @@ def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_
 
     first_page = next(generator)
     length = min(max_pages, first_page['meta']['page']['totalPages']) - start_page
-    with click.progressbar(length=length, label='Scraping API') as bar:
+    with click.progressbar(length=length, label='Scraping API', file=sys.stderr) as bar:
         write_json(output / f'{entity}{start_page:04d}.json', first_page, pretty_json)
         bar.update(1)
         for counter, page in enumerate(generator, start_page+1):
