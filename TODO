@@ -1,0 +1,3 @@
+- transform inclusions, not only entities
+- update bigquery schema
+- add bigquery transformation queries/views

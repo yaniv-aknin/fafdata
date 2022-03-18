@@ -11,3 +11,7 @@ def load_json(name):
 @pytest.fixture
 def games_json():
     return load_json('games.json')
+
+@pytest.fixture
+def players_json():
+    return load_json('players.json')

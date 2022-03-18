@@ -3,7 +3,6 @@ from click.testing import CliRunner
 import responses
 
 import conftest
-import pytest
 import json
 
 from fafscrape.main import extract_from_faf_api, transform_api_dump_to_jsonl
@@ -20,7 +19,7 @@ def test_transform_api_dump_to_jsonl_game():
         assert result.exit_code == 0
         xformed, = read_jsonl('xformed.jsonl', 1)
         assert xformed['id'] == '14395974'
-        assert xformed['mapVersionId'] == '18852'
+        assert xformed['mapVersion.mapVersion.id'] == '18852'
     with runner.isolated_filesystem():
         os.system(f'cp {dump_path} . && gzip games.json')
         result = runner.invoke(transform_api_dump_to_jsonl, ['games.json.gz', 'xformed.jsonl'])
