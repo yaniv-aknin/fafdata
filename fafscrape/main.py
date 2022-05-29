@@ -39,8 +39,9 @@ def invocation_metadata(**kwargs):
 @click.option('--start-page', type=click.INT, default=1, help='Which page to start at (i.e., resume)')
 @click.option('--max-pages', type=click.INT, default=10, help='Stop download after this many pages')
 @click.option('--include', multiple=True, help='Which related entities to include')
+@click.option('--filters', multiple=True, help='Extra filters to add')
 @click.option('--pretty-json/--no-pretty-json', default=True)
-def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json):
+def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json, filters):
     max_pages = max_pages or float('inf')
     if is_dir_populated(output):
         click.confirm(f"{output} isn't empty. Do you want to continue?", abort=True)
@@ -53,7 +54,7 @@ def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_
     start_date_obj = parse_date(start_date)
     end_date_obj = parse_date(end_date)
 
-    url_constructor = functools.partial(construct_url, entity, include, date_field, page_size, start_date_obj, end_date_obj)
+    url_constructor = functools.partial(construct_url, entity, include, date_field, page_size, start_date_obj, end_date_obj, filters=filters)
     generator = yield_pages(url_constructor, start_page, max_pages=max_pages)
 
     with open(output/f'{entity}.metadata.json', 'w') as handle:

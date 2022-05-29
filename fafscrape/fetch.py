@@ -12,12 +12,12 @@ ENTITY_TYPE_TO_DEFAULT_DATE_FIELD = {
     'player': 'createTime',
 }
 
-def construct_url(entity, include, date_field, page_size, start_date, end_date, page_number=1, sort='ASC', api_base=API_BASE):
+def construct_url(entity, include, date_field, page_size, start_date, end_date, page_number=1, sort='ASC', filters=(), api_base=API_BASE):
     url = api_base.with_path(f'/data/{entity}')
     url = url.add_query_param('page[size]', page_size)
     url = url.add_query_param('page[number]', page_number)
     url = url.add_query_param('page[totals]', '')
-    filters = []
+    filters = list(filters)
     start_date = format_faf_date(start_date)
     filters.append(f'{date_field}=ge={start_date}')
     end_date = format_faf_date(end_date)

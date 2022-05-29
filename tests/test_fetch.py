@@ -37,6 +37,9 @@ def test_construct_url():
     # two inclusions
     assert 'incA%2CincB' in construct_url('entity', ['incA', 'incB'], 'timefield', 10, SOME_DATE, SOME_DATE, api_base=API_BASE)
 
+    # customm filter
+    assert 'a%3Bb' in construct_url('entity', ['include'], 'timefield', 10, SOME_DATE, SOME_DATE, filters=['a', 'b'], api_base=API_BASE)
+
 @responses.activate
 def test_fetch_page():
     responses.add(method='GET', url='http://test', json={'foo': 'bar'})
