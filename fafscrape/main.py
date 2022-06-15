@@ -12,12 +12,13 @@ from .utils import parse_date, is_dir_populated, decompressed
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
 @click.argument('output', type=click.File('w'), nargs=1)
-def transform_api_dump_to_jsonl(inputs, output):
+@click.option('--embed-inclusion', multiple=True)
+def transform_api_dump_to_jsonl(inputs, output, embed_inclusion):
     with click.progressbar(inputs, label='Transforming', file=sys.stderr) as bar:
         for input in bar:
             with decompressed(input) as handle:
                 page = json.load(handle)
-                for xform_entity in process_page(page):
+                for xform_entity in process_page(page, embed_inclusion):
                     output.write(json.dumps(xform_entity) + '\n')
         output.close()
 
