@@ -15,23 +15,26 @@ def test_transform_api_dump_to_jsonl_game():
     dump_path = conftest.testdata / 'games.json'
     runner = CliRunner()
     with runner.isolated_filesystem():
-        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'xformed.jsonl'])
+        os.mkdir('output')
+        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'output'])
         assert result.exit_code == 0
-        xformed, = read_jsonl('xformed.jsonl', 1)
+        xformed, = read_jsonl('output/xformed.jsonl', 1)
         assert xformed['id'] == '14395974'
         assert xformed['mapVersion.mapVersion.id'] == '18852'
     with runner.isolated_filesystem():
+        os.mkdir('output')
         os.system(f'cp {dump_path} . && gzip games.json')
-        result = runner.invoke(transform_api_dump_to_jsonl, ['games.json.gz', 'xformed.jsonl'])
+        result = runner.invoke(transform_api_dump_to_jsonl, ['games.json.gz', 'output'])
         assert result.exit_code == 0
 
 def test_transform_api_dump_to_jsonl_player():
     dump_path = conftest.testdata / 'players.json'
     runner = CliRunner()
     with runner.isolated_filesystem():
-        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'xformed.jsonl'])
+        os.mkdir('output')
+        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'output'])
         assert result.exit_code == 0
-        xformed, = read_jsonl('xformed.jsonl', 1)
+        xformed, = read_jsonl('output/xformed.jsonl', 1)
         assert xformed['id'] == '368434'
 
 @responses.activate

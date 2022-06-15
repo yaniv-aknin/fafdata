@@ -9,18 +9,23 @@ from .transform import process_page
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
 from .utils import parse_date, is_dir_populated, decompressed
 
+def confirm_empty(ctx, param, output_directory):
+    if is_dir_populated(output_directory):
+        click.confirm(f"{output_directory} isn't empty. Do you want to continue?", abort=True)
+    return output_directory
+
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
-@click.argument('output', type=click.File('w'), nargs=1)
+@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=confirm_empty)
 @click.option('--embed-inclusion', multiple=True)
 def transform_api_dump_to_jsonl(inputs, output, embed_inclusion):
-    with click.progressbar(inputs, label='Transforming', file=sys.stderr) as bar:
-        for input in bar:
-            with decompressed(input) as handle:
-                page = json.load(handle)
-                for xform_entity in process_page(page, embed_inclusion):
-                    output.write(json.dumps(xform_entity) + '\n')
-        output.close()
+    with open(output / "xformed.jsonl", "w") as outhandle:
+        with click.progressbar(inputs, label='Transforming', file=sys.stderr) as bar:
+            for input in bar:
+                with decompressed(input) as inhandle:
+                    page = json.load(inhandle)
+                    for xform_entity in process_page(page, embed_inclusion):
+                        outhandle.write(json.dumps(xform_entity) + '\n')
 
 def invocation_metadata(**kwargs):
     metadata = {
@@ -31,7 +36,7 @@ def invocation_metadata(**kwargs):
     return metadata
 
 @click.command()
-@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path))
+@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=confirm_empty)
 @click.argument('entity')
 @click.option('--date-field', help='When specifying dates, which entity field should be used for comparison')
 @click.option('--start-date', help='Query first date; %Y-%m-%d for specific day or "-N" for N days ago', default='-2')
@@ -44,8 +49,6 @@ def invocation_metadata(**kwargs):
 @click.option('--pretty-json/--no-pretty-json', default=True)
 def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json, filters):
     max_pages = max_pages or float('inf')
-    if is_dir_populated(output):
-        click.confirm(f"{output} isn't empty. Do you want to continue?", abort=True)
 
     if date_field is None:
         if entity not in ENTITY_TYPE_TO_DEFAULT_DATE_FIELD:
