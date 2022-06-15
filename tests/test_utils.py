@@ -25,7 +25,7 @@ def test_is_dir_populated():
         (path / 'foo').touch()
         assert U.is_dir_populated(path)
 
-def test_is_dir_populated():
+def test_decompressed():
     runner = CliRunner()
     with runner.isolated_filesystem():
         with open('foo', 'w') as handle:
