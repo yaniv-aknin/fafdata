@@ -8,6 +8,7 @@ import click
 from .transform import process_page, PartitionedWriter
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
 from .utils import parse_date, is_dir_populated, decompressed
+from .parse import load_replay, yield_commands
 
 def verify_empty(ctx, param, output_directory):
     if not output_directory.exists():
@@ -15,6 +16,16 @@ def verify_empty(ctx, param, output_directory):
     if is_dir_populated(output_directory):
         click.confirm(f"{output_directory} isn't empty. Do you want to continue?", abort=True)
     return output_directory
+
+@click.command()
+@click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
+@click.argument('output', type=click.File('w'), nargs=1)
+def parse_replay_commands_to_jsonl(inputs, output):
+    with click.progressbar(inputs, label='Dumping', file=sys.stderr) as bar:
+        for input in bar:
+            parsed = load_replay(input)
+            for cmd in yield_commands(parsed):
+                output.write(json.dumps(cmd)+'\n')
 
 partition_strategies = {}
 def partition_by(f):

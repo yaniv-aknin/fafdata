@@ -15,3 +15,7 @@ def games_json():
 @pytest.fixture
 def players_json():
     return load_json('players.json')
+
+@pytest.fixture
+def replay_pickle():
+    return testdata / 'replay.pickle.gz'

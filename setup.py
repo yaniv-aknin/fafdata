@@ -15,6 +15,7 @@ setup(
     long_description_content_type='text/markdown',
     entry_points = {
         'console_scripts': ['faf.transform=fafscrape.main:transform_api_dump_to_jsonl',
-                            'faf.extract=fafscrape.main:extract_from_faf_api'],
+                            'faf.extract=fafscrape.main:extract_from_faf_api',
+                            'faf.parse=fafscrape.main:parse_replay_commands_to_jsonl'],
     }
 )
