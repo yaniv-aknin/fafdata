@@ -3,5 +3,11 @@
     { "mode": "NULLABLE", "name": "login", "type": "STRING" },
     { "mode": "NULLABLE", "name": "updateTime", "type": "TIMESTAMP" },
     { "mode": "NULLABLE", "name": "createTime", "type": "TIMESTAMP" },
-    { "mode": "NULLABLE", "name": "userAgent", "type": "STRING" }
+    { "mode": "NULLABLE", "name": "userAgent", "type": "STRING" },
+
+    { "mode": "NULLABLE", "name": "globalRating_globalRating_id", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "ladder1v1Rating_ladder1v1Rating_id", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "clanMembership_clanMembership_id", "type": "STRING" },
+    { "mode": "REPEATED", "name": "avatarAssignments_avatarAssignment_id", "type": "STRING" },
+    { "mode": "REPEATED", "name": "names_nameRecord_id", "type": "STRING" }
 ]
