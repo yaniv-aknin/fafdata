@@ -21,7 +21,7 @@ def test_transform_api_dump_to_jsonl_game():
         assert result.exit_code == 0
         xformed, = read_jsonl('output/xformed.jsonl', 1)
         assert xformed['id'] == '14395974'
-        assert xformed['mapVersion.mapVersion.id'] == '18852'
+        assert xformed['mapVersion_mapVersion_id'] == '18852'
 
 def test_transform_api_dump_to_jsonl_game_deduped():
     dump_path = conftest.testdata / 'games.json'

@@ -15,9 +15,9 @@ def transform_attributes(entity):
 
 def embed(relationship, inclusion, index):
     if inclusion['type'] not in index:
-        return f'{relationship}.{inclusion["type"]}.id', inclusion['id']
+        return f'{relationship}_{inclusion["type"]}_id', inclusion['id']
     else:
-        return f'{relationship}.{inclusion["type"]}', index[inclusion['type']][inclusion['id']]
+        return f'{relationship}_{inclusion["type"]}', index[inclusion['type']][inclusion['id']]
 
 def generic_transform(entity, embedding_index):
     result = transform_attributes(entity)
@@ -27,7 +27,7 @@ def generic_transform(entity, embedding_index):
             continue
         if type(inclusion) is list:
             related_type = inclusion[0]['type']
-            result[f'{relationship}.{related_type}.id'] = list()
+            result[f'{relationship}_{related_type}_id'] = list()
             for datum in inclusion:
                 assert datum['type'] == related_type
                 embedding_key, embedded_value = embed(relationship, datum, embedding_index)
