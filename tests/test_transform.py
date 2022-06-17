@@ -37,6 +37,7 @@ def test_transform_game_with_embedded_inclusions(games_json):
     assert xform_game['host_player_id'] == '405147'
     assert xform_game['playerStats_gamePlayerStats'][0]['faction'] == 4
     assert xform_game['playerStats_gamePlayerStats'][0]['scoreTime'] == '2021-04-28 04:39:55'
+    assert xform_game['playerStats_gamePlayerStats'][0]['player_player_id'] == '405147'
 
 def test_partitioned_writer_one_path(tmp_path):
     with PartitionedWriter(lambda x: tmp_path / "x.out") as pw:

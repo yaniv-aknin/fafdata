@@ -43,7 +43,7 @@ def index_inclusions(page, types_to_index):
     index = {inclusion_type: {} for inclusion_type in types_to_index}
     for entity in page['included']:
         if entity['type'] in types_to_index:
-            index[entity['type']][entity['id']] = transform_attributes(entity)
+            index[entity['type']][entity['id']] = generic_transform(entity, embedding_index={})
     return index
 
 def process_page(page, embed_inclusion_types=None):
