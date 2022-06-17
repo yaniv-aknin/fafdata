@@ -32,9 +32,11 @@ def year_month(base, datum):
 @click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=confirm_empty)
 @click.option('--embed-inclusion', multiple=True)
 @click.option('--partition-strategy', type=click.Choice(partition_strategies), default=next(iter(partition_strategies)))
-def transform_api_dump_to_jsonl(inputs, output, embed_inclusion, partition_strategy):
+@click.option('--dedup-on-field', default='id')
+def transform_api_dump_to_jsonl(inputs, output, embed_inclusion, partition_strategy, dedup_on_field):
     get_path_for_datum = functools.partial(partition_strategies[partition_strategy], output)
-    with PartitionedWriter(get_path_for_datum) as writer:
+    dedup_key = None if not dedup_on_field else lambda x: x[dedup_on_field]
+    with PartitionedWriter(get_path_for_datum, dedup_key=dedup_key) as writer:
         with click.progressbar(inputs, label='Transforming', file=sys.stderr) as bar:
             for input in bar:
                 with decompressed(input) as inhandle:

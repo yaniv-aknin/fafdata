@@ -59,12 +59,14 @@ class PartitionedWriter:
     function to identify the right path from this datum, encode the datum with a user-provided
     encoding function, and append the result to the right path (possibly opening the file or
     using a cached file descriptor maintained in an LRU)."""
-    def __init__(self, get_path_for_datum, encoder=json.dumps, max_file_descriptors=50, write_suffix='\n'):
+    def __init__(self, get_path_for_datum, encoder=json.dumps, max_file_descriptors=50, write_suffix='\n', dedup_key=None):
         self.get_path = get_path_for_datum
         self.encoder = encoder
         self.max_file_descriptors = max_file_descriptors
         self.write_suffix = write_suffix
+        self.dedup_key = dedup_key
         self.handles = {}
+        self.seen = set()
     def get_handle(self, path):
         if path not in self.handles:
             if len(self.handles) == self.max_file_descriptors:
@@ -73,7 +75,17 @@ class PartitionedWriter:
                 path.parent.mkdir(parents=True)
             self.handles[path] = open(path, 'a')
         return self.handles[path]
+    def is_duplicate(self, datum):
+        if not self.dedup_key:
+            return False
+        key = self.dedup_key(datum)
+        if key in self.seen:
+            return True
+        self.seen.add(key)
+        return False
     def write(self, datum):
+        if self.is_duplicate(datum):
+            return
         path = self.get_path(datum)
         handle = self.get_handle(path)
         # what's better - concatenating the strings or calling write twice?

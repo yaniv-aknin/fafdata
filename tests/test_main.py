@@ -1,4 +1,5 @@
 import os
+import copy
 from click.testing import CliRunner
 import responses
 
@@ -21,6 +22,26 @@ def test_transform_api_dump_to_jsonl_game():
         xformed, = read_jsonl('output/xformed.jsonl', 1)
         assert xformed['id'] == '14395974'
         assert xformed['mapVersion.mapVersion.id'] == '18852'
+
+def test_transform_api_dump_to_jsonl_game_deduped():
+    dump_path = conftest.testdata / 'games.json'
+    games = json.load(open(dump_path))
+    games['data'].insert(1, copy.deepcopy(games['data'][0]))
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        os.mkdir('output')
+        json.dump(games, open('games_duplicate.json', 'w'))
+        result = runner.invoke(transform_api_dump_to_jsonl, ['games_duplicate.json', 'output'])
+        assert result.exit_code == 0
+        g1, g2, = read_jsonl('output/xformed.jsonl', 2)
+        assert g1['id'] != g2['id']
+    with runner.isolated_filesystem():
+        os.mkdir('output')
+        json.dump(games, open('games_duplicate.json', 'w'))
+        result = runner.invoke(transform_api_dump_to_jsonl, ['--dedup-on-field', '', 'games_duplicate.json', 'output'])
+        assert result.exit_code == 0
+        g1, g2, = read_jsonl('output/xformed.jsonl', 2)
+        assert g1['id'] == g2['id']
 
 def test_transform_api_dump_to_jsonl_game_gzipped():
     dump_path = conftest.testdata / 'games.json'
