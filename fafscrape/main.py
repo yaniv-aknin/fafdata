@@ -9,7 +9,9 @@ from .transform import process_page, PartitionedWriter
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
 from .utils import parse_date, is_dir_populated, decompressed
 
-def confirm_empty(ctx, param, output_directory):
+def verify_empty(ctx, param, output_directory):
+    if not output_directory.exists():
+        output_directory.mkdir()
     if is_dir_populated(output_directory):
         click.confirm(f"{output_directory} isn't empty. Do you want to continue?", abort=True)
     return output_directory
@@ -29,7 +31,7 @@ def year_month(base, datum):
 
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
-@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=confirm_empty)
+@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=verify_empty)
 @click.option('--embed-inclusion', multiple=True)
 @click.option('--partition-strategy', type=click.Choice(partition_strategies), default=next(iter(partition_strategies)))
 @click.option('--dedup-on-field', default='id')
@@ -53,7 +55,7 @@ def invocation_metadata(**kwargs):
     return metadata
 
 @click.command()
-@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=confirm_empty)
+@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=verify_empty)
 @click.argument('entity')
 @click.option('--date-field', help='When specifying dates, which entity field should be used for comparison')
 @click.option('--start-date', help='Query first date; %Y-%m-%d for specific day or "-N" for N days ago', default='-2')
