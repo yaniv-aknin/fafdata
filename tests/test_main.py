@@ -1,9 +1,9 @@
 import os
+import copy
 from click.testing import CliRunner
 import responses
 
 import conftest
-import pytest
 import json
 
 from fafscrape.main import extract_from_faf_api, transform_api_dump_to_jsonl
@@ -16,29 +16,66 @@ def test_transform_api_dump_to_jsonl_game():
     dump_path = conftest.testdata / 'games.json'
     runner = CliRunner()
     with runner.isolated_filesystem():
-        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'xformed.jsonl'])
+        os.mkdir('output')
+        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'output'])
         assert result.exit_code == 0
-        xformed, = read_jsonl('xformed.jsonl', 1)
+        xformed, = read_jsonl('output/xformed.jsonl', 1)
         assert xformed['id'] == '14395974'
-        assert xformed['mapVersionId'] == '18852'
+        assert xformed['mapVersion_mapVersion_id'] == '18852'
+
+def test_transform_api_dump_to_jsonl_game_deduped():
+    dump_path = conftest.testdata / 'games.json'
+    games = json.load(open(dump_path))
+    games['data'].insert(1, copy.deepcopy(games['data'][0]))
+    runner = CliRunner()
     with runner.isolated_filesystem():
-        os.system(f'cp {dump_path} . && gzip games.json')
-        result = runner.invoke(transform_api_dump_to_jsonl, ['games.json.gz', 'xformed.jsonl'])
+        os.mkdir('output')
+        json.dump(games, open('games_duplicate.json', 'w'))
+        result = runner.invoke(transform_api_dump_to_jsonl, ['games_duplicate.json', 'output'])
         assert result.exit_code == 0
+        g1, g2, = read_jsonl('output/xformed.jsonl', 2)
+        assert g1['id'] != g2['id']
+    with runner.isolated_filesystem():
+        os.mkdir('output')
+        json.dump(games, open('games_duplicate.json', 'w'))
+        result = runner.invoke(transform_api_dump_to_jsonl, ['--dedup-on-field', '', 'games_duplicate.json', 'output'])
+        assert result.exit_code == 0
+        g1, g2, = read_jsonl('output/xformed.jsonl', 2)
+        assert g1['id'] == g2['id']
+
+def test_transform_api_dump_to_jsonl_game_gzipped():
+    dump_path = conftest.testdata / 'games.json'
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        os.mkdir('output')
+        os.system(f'cp {dump_path} . && gzip games.json')
+        result = runner.invoke(transform_api_dump_to_jsonl, ['games.json.gz', 'output'])
+        assert result.exit_code == 0
+
+def test_transform_api_dump_to_jsonl_game_partitioned():
+    dump_path = conftest.testdata / 'games.json'
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        os.mkdir('output')
+        result = runner.invoke(transform_api_dump_to_jsonl, ['--partition-strategy', 'year_month', str(dump_path), 'output'])
+        assert result.exit_code == 0
+        xformed, = read_jsonl('output/dt=2012-01-01/2012-12-01.jsonl', 1)
+        assert xformed['id'] == '459322'
 
 def test_transform_api_dump_to_jsonl_player():
     dump_path = conftest.testdata / 'players.json'
     runner = CliRunner()
     with runner.isolated_filesystem():
-        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'xformed.jsonl'])
+        os.mkdir('output')
+        result = runner.invoke(transform_api_dump_to_jsonl, [str(dump_path), 'output'])
         assert result.exit_code == 0
-        xformed, = read_jsonl('xformed.jsonl', 1)
+        xformed, = read_jsonl('output/xformed.jsonl', 1)
         assert xformed['id'] == '368434'
 
 @responses.activate
 def test_extract_from_faf_api(games_json):
     url = ('https://api.faforever.com/data/game?page%5Bsize%5D=10&page%5Bnumber%5D=1&page%5Btotals%5D=&'
-           'filter=endTime%3Dge%3D1970-01-01T00%3A00%3A00Z%3BendTime%3Dle%3D1970-01-01T00%3A00%3A00Z&sort=endTime')
+           'filter=startTime%3Dge%3D1970-01-01T00%3A00%3A00Z%3BstartTime%3Dle%3D1970-01-01T00%3A00%3A00Z&sort=startTime')
     responses.add(method='GET', url=url, json=games_json)
     runner = CliRunner()
     with runner.isolated_filesystem():

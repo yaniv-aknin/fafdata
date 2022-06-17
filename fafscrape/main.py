@@ -5,21 +5,46 @@ import functools
 import json
 import click
 
-from .transform import process_page
+from .transform import process_page, PartitionedWriter
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
 from .utils import parse_date, is_dir_populated, decompressed
 
+def verify_empty(ctx, param, output_directory):
+    if not output_directory.exists():
+        output_directory.mkdir()
+    if is_dir_populated(output_directory):
+        click.confirm(f"{output_directory} isn't empty. Do you want to continue?", abort=True)
+    return output_directory
+
+partition_strategies = {}
+def partition_by(f):
+    partition_strategies[f.__name__] = f
+    return f
+
+@partition_by
+def single_file(base, datum):
+    return base / 'xformed.jsonl'
+
+@partition_by
+def year_month(base, datum):
+    return base / f'dt={datum["startTime"][:4]}-01-01' / f'{datum["startTime"][:7]}-01.jsonl'
+
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
-@click.argument('output', type=click.File('w'), nargs=1)
-def transform_api_dump_to_jsonl(inputs, output):
-    with click.progressbar(inputs, label='Transforming', file=sys.stderr) as bar:
-        for input in bar:
-            with decompressed(input) as handle:
-                page = json.load(handle)
-                for xform_entity in process_page(page):
-                    output.write(json.dumps(xform_entity) + '\n')
-        output.close()
+@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=verify_empty)
+@click.option('--embed-inclusion', multiple=True)
+@click.option('--partition-strategy', type=click.Choice(partition_strategies), default=next(iter(partition_strategies)))
+@click.option('--dedup-on-field', default='id')
+def transform_api_dump_to_jsonl(inputs, output, embed_inclusion, partition_strategy, dedup_on_field):
+    get_path_for_datum = functools.partial(partition_strategies[partition_strategy], output)
+    dedup_key = None if not dedup_on_field else lambda x: x[dedup_on_field]
+    with PartitionedWriter(get_path_for_datum, dedup_key=dedup_key) as writer:
+        with click.progressbar(inputs, label='Transforming', file=sys.stderr) as bar:
+            for input in bar:
+                with decompressed(input) as inhandle:
+                    page = json.load(inhandle)
+                    for xform_entity in process_page(page, embed_inclusion):
+                        writer.write(xform_entity)
 
 def invocation_metadata(**kwargs):
     metadata = {
@@ -30,7 +55,7 @@ def invocation_metadata(**kwargs):
     return metadata
 
 @click.command()
-@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path))
+@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=verify_empty)
 @click.argument('entity')
 @click.option('--date-field', help='When specifying dates, which entity field should be used for comparison')
 @click.option('--start-date', help='Query first date; %Y-%m-%d for specific day or "-N" for N days ago', default='-2')
@@ -43,8 +68,6 @@ def invocation_metadata(**kwargs):
 @click.option('--pretty-json/--no-pretty-json', default=True)
 def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json, filters):
     max_pages = max_pages or float('inf')
-    if is_dir_populated(output):
-        click.confirm(f"{output} isn't empty. Do you want to continue?", abort=True)
 
     if date_field is None:
         if entity not in ENTITY_TYPE_TO_DEFAULT_DATE_FIELD:
