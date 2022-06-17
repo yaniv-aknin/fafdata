@@ -27,7 +27,6 @@ def generic_transform(entity, embedding_index):
             continue
         if type(inclusion) is list:
             related_type = inclusion[0]['type']
-            result[f'{relationship}_{related_type}_id'] = list()
             for datum in inclusion:
                 assert datum['type'] == related_type
                 embedding_key, embedded_value = embed(relationship, datum, embedding_index)
