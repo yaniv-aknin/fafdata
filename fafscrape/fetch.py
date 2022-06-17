@@ -8,7 +8,7 @@ from .utils import format_faf_date
 API_BASE = urlobject.URLObject('https://api.faforever.com')
 
 ENTITY_TYPE_TO_DEFAULT_DATE_FIELD = {
-    'game': 'endTime',
+    'game': 'startTime',
     'player': 'createTime',
 }
 

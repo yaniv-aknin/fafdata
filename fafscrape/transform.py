@@ -1,4 +1,5 @@
 import re
+import json
 
 from .utils import faf_to_bigquery_datetime
 
@@ -50,3 +51,36 @@ def process_page(page, embed_inclusion_types=None):
     embedding_index = index_inclusions(page, embed_inclusion_types)
     for entity in page['data']:
         yield generic_transform(entity, embedding_index)
+
+class PartitionedWriter:
+    """A class meant to sequentially write to many files in unguaranteed order.
+
+    The heart of the class is the `write(datum)`. PartitionedWriter will apply a user-provided
+    function to identify the right path from this datum, encode the datum with a user-provided
+    encoding function, and append the result to the right path (possibly opening the file or
+    using a cached file descriptor maintained in an LRU)."""
+    def __init__(self, get_path_for_datum, encoder=json.dumps, max_file_descriptors=50, write_suffix='\n'):
+        self.get_path = get_path_for_datum
+        self.encoder = encoder
+        self.max_file_descriptors = max_file_descriptors
+        self.write_suffix = write_suffix
+        self.handles = {}
+    def get_handle(self, path):
+        if path not in self.handles:
+            if len(self.handles) == self.max_file_descriptors:
+                self.handles.pop(next(iter(self.handles))).close()
+            if not path.parent.exists():
+                path.parent.mkdir(parents=True)
+            self.handles[path] = open(path, 'a')
+        return self.handles[path]
+    def write(self, datum):
+        path = self.get_path(datum)
+        handle = self.get_handle(path)
+        # what's better - concatenating the strings or calling write twice?
+        # I saw <1% difference benchmarking writes of a 3K JSON 500K times using CPython 3.10.4
+        handle.write(self.encoder(datum) + self.write_suffix)
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_value, traceback):
+        while self.handles:
+            self.handles.popitem()[1].close()

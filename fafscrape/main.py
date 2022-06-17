@@ -5,7 +5,7 @@ import functools
 import json
 import click
 
-from .transform import process_page
+from .transform import process_page, PartitionedWriter
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
 from .utils import parse_date, is_dir_populated, decompressed
 
@@ -14,18 +14,33 @@ def confirm_empty(ctx, param, output_directory):
         click.confirm(f"{output_directory} isn't empty. Do you want to continue?", abort=True)
     return output_directory
 
+partition_strategies = {}
+def partition_by(f):
+    partition_strategies[f.__name__] = f
+    return f
+
+@partition_by
+def single_file(base, datum):
+    return base / 'xformed.jsonl'
+
+@partition_by
+def year_month(base, datum):
+    return base / f'dt={datum["startTime"][:4]}-01-01' / f'{datum["startTime"][:7]}-01.jsonl'
+
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
 @click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=confirm_empty)
 @click.option('--embed-inclusion', multiple=True)
-def transform_api_dump_to_jsonl(inputs, output, embed_inclusion):
-    with open(output / "xformed.jsonl", "w") as outhandle:
+@click.option('--partition-strategy', type=click.Choice(partition_strategies), default=next(iter(partition_strategies)))
+def transform_api_dump_to_jsonl(inputs, output, embed_inclusion, partition_strategy):
+    get_path_for_datum = functools.partial(partition_strategies[partition_strategy], output)
+    with PartitionedWriter(get_path_for_datum) as writer:
         with click.progressbar(inputs, label='Transforming', file=sys.stderr) as bar:
             for input in bar:
                 with decompressed(input) as inhandle:
                     page = json.load(inhandle)
                     for xform_entity in process_page(page, embed_inclusion):
-                        outhandle.write(json.dumps(xform_entity) + '\n')
+                        writer.write(xform_entity)
 
 def invocation_metadata(**kwargs):
     metadata = {

@@ -1,4 +1,5 @@
-from fafscrape.transform import generic_transform, index_inclusions
+import os
+from fafscrape.transform import generic_transform, index_inclusions, PartitionedWriter
 
 def test_index_inclusions_empty(games_json):
     index = index_inclusions(games_json, ())
@@ -36,3 +37,35 @@ def test_transform_game_with_embedded_inclusions(games_json):
     assert xform_game['host.player.id'] == '405147'
     assert xform_game['playerStats.gamePlayerStats'][0]['faction'] == 4
     assert xform_game['playerStats.gamePlayerStats'][0]['scoreTime'] == '2021-04-28 04:39:55'
+
+def test_partitioned_writer_one_path(tmp_path):
+    with PartitionedWriter(lambda x: tmp_path / "x.out") as pw:
+        pw.write({"foo": "bar"})
+        pw.write({"baz": "qux"})
+    with open(tmp_path / "x.out") as handle:
+        assert handle.read() == '{"foo": "bar"}\n{"baz": "qux"}\n'
+
+def test_partitioned_writer_encoding(tmp_path):
+    with PartitionedWriter(lambda x: tmp_path / "x.out", encoder=lambda x: x.upper(), write_suffix='X') as pw:
+        pw.write('foo')
+        pw.write('bar')
+    with open(tmp_path / "x.out") as handle:
+        assert handle.read() == 'FOOXBARX'
+
+def test_partitioned_writer_two_paths(tmp_path):
+    with PartitionedWriter(lambda x: tmp_path / f"{x['foo']}") as pw:
+        pw.write({"foo": "bar"})
+        pw.write({"foo": "baz"})
+    with open(tmp_path / "bar") as handle:
+        assert handle.read() == '{"foo": "bar"}\n'
+    with open(tmp_path / "baz") as handle:
+        assert handle.read() == '{"foo": "baz"}\n'
+
+def test_partitioned_writer_many_paths(tmp_path):
+    with PartitionedWriter(lambda x: tmp_path / f"{x['foo']}", max_file_descriptors=2) as pw:
+        pw.write({"foo": "bar"})
+        pw.write({"foo": "baz"})
+        assert len(pw.handles) == 2
+        pw.write({"foo": "qux"})
+        assert len(pw.handles) == 2
+    assert set(os.listdir(tmp_path)) == {'bar', 'baz', 'qux'}
