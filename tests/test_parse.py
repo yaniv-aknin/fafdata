@@ -8,20 +8,31 @@ def test_byte_as_base64():
 
 def test_load_replay():
     replay_path = str(conftest.testdata / 'replay.pickle.gz')
-    data = load_replay(replay_path)
-    assert 'json' in data
+    from_pickle = load_replay(replay_path)
+    assert 'json' in from_pickle
+    replay_path = str(conftest.testdata / 'replay.v2.fafreplay')
+    from_replay = load_replay(replay_path)
+    assert 'json' in from_replay
+    # this line might end up being brittle; we're essentially checking the parser
+    # and associated command-offseting logic doesn't change. I think the brittleness
+    # is worth it because there's a lot of legacy being carried around to ensure
+    # compatibility with previously parsed and cached replays
+    assert from_pickle == from_replay
+    replay_path = str(conftest.testdata / 'replay.v1.fafreplay')
+    old_replay = load_replay(replay_path)
+    assert old_replay['json']['uid'] == 460
 
 @pytest.fixture
-def parsed_replay():
+def parsed_pickle():
     replay_path = str(conftest.testdata / 'replay.pickle.gz')
     return load_replay(replay_path)
 
-def test_index_players(parsed_replay):
-    index = index_players(parsed_replay)
+def test_index_players(parsed_pickle):
+    index = index_players(parsed_pickle)
     assert index == {'cizei': 1, 'teolicy': 0}
 
-def test_yield_commands(parsed_replay):
-    commands = yield_commands(parsed_replay)
+def test_yield_commands(parsed_pickle):
+    commands = yield_commands(parsed_pickle)
     cmd = next(commands)
     assert cmd['id'] == '12519949'
     assert set(cmd.keys()) == {'payload', 'offset_ms', 'player', 'type', 'id'}

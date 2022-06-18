@@ -2,3 +2,5 @@ Flask
 click
 requests
 URLObject
+zstd
+git+https://github.com/yaniv-aknin/faf-scfa-replay-parser@9d0cb7c#egg=replay_parser
