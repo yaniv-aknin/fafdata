@@ -1,0 +1,45 @@
+[
+    { "mode": "NULLABLE", "name": "id", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "createTime", "type": "TIMESTAMP" },
+    { "mode": "NULLABLE", "name": "updateTime", "type": "TIMESTAMP" },
+    { "mode": "NULLABLE", "name": "gamesPlayed", "type": "INTEGER" },
+    { "mode": "NULLABLE", "name": "ranked", "type": "BOOLEAN" },
+    { "mode": "NULLABLE", "name": "hidden", "type": "BOOLEAN" },
+    { "mode": "NULLABLE", "name": "version", "type": "INTEGER" },
+    { "mode": "NULLABLE", "name": "description", "type": "STRING" },
+
+    { "mode": "NULLABLE", "name": "downloadUrl", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "filename", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "folderName", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "thumbnailUrlLarge", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "thumbnailUrlSmall", "type": "STRING" },
+
+    { "mode": "NULLABLE", "name": "height", "type": "INTEGER" },
+    { "mode": "NULLABLE", "name": "width", "type": "INTEGER" },
+    { "mode": "NULLABLE", "name": "maxPlayers", "type": "INTEGER" },
+
+    { "mode": "REPEATED", "name": "reviews_mapVersionReview_id", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "statistics_mapVersionStatistics_id", "type": "STRING" },
+    { "mode": "NULLABLE", "name": "reviewsSummary_mapVersionReviewsSummary_id", "type": "STRING" },
+
+    {
+        "mode": "REPEATED", "name": "map_map", "type": "RECORD",
+        "fields": [
+            { "mode": "NULLABLE", "name": "id", "type": "STRING" },
+            { "mode": "NULLABLE", "name": "displayName", "type": "STRING" },
+            { "mode": "NULLABLE", "name": "createTime", "type": "TIMESTAMP" },
+            { "mode": "NULLABLE", "name": "updateTime", "type": "TIMESTAMP" },
+            { "mode": "NULLABLE", "name": "gamesPlayed", "type": "INTEGER" },
+            { "mode": "NULLABLE", "name": "recommended", "type": "BOOLEAN" },
+
+            { "mode": "NULLABLE", "name": "battleType", "type": "STRING" },
+            { "mode": "NULLABLE", "name": "mapType", "type": "STRING" },
+
+            { "mode": "REPEATED", "name": "versions_mapVersion_id", "type": "STRING" },
+            { "mode": "NULLABLE", "name": "author_player_id", "type": "STRING" },
+            { "mode": "NULLABLE", "name": "reviewsSummary_mapReviewsSummary_id", "type": "STRING" },
+            { "mode": "NULLABLE", "name": "latestVersion_mapVersion_id", "type": "STRING" },
+            { "mode": "NULLABLE", "name": "statistics_mapStatistics_id", "type": "STRING" }
+        ]
+    }
+]

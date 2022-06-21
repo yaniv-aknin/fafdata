@@ -10,6 +10,8 @@ API_BASE = urlobject.URLObject('https://api.faforever.com')
 ENTITY_TYPE_TO_DEFAULT_DATE_FIELD = {
     'game': 'startTime',
     'player': 'createTime',
+    'map': 'createTime',
+    'mapVersion': 'createTime',
 }
 
 def construct_url(entity, include, date_field, page_size, start_date, end_date, page_number=1, sort='ASC', filters=(), api_base=API_BASE):
