@@ -16,6 +16,7 @@ setup(
     entry_points = {
         'console_scripts': ['faf.transform=fafscrape.main:transform_api_dump_to_jsonl',
                             'faf.extract=fafscrape.main:extract_from_faf_api',
+                            'faf.unpack=fafscrape.main:unpack_replays_to_pickle',
                             'faf.parse=fafscrape.main:parse_replay_commands_to_jsonl'],
     }
 )

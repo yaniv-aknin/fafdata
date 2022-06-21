@@ -1,13 +1,15 @@
 import sys
+import os
 import pathlib
 import datetime
 import functools
 import json
 import click
+import pickle
 
 from .transform import process_page, PartitionedWriter
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
-from .utils import parse_date, is_dir_populated, decompressed
+from .utils import parse_date, is_dir_populated, decompressed, compressed
 from .parse import load_replay, yield_commands
 
 def verify_empty(ctx, param, output_directory):
@@ -16,6 +18,25 @@ def verify_empty(ctx, param, output_directory):
     if is_dir_populated(output_directory):
         click.confirm(f"{output_directory} isn't empty. Do you want to continue?", abort=True)
     return output_directory
+
+@click.command()
+@click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
+@click.option('--ignore-errors/--no-ignore-errors', default=True)
+@click.option('--in-suffix', default='.fafreplay')
+@click.option('--out-suffix', default='.pickle.zstd')
+def unpack_replays_to_pickle(inputs, ignore_errors, in_suffix, out_suffix):
+    for inpath in inputs:
+        if not(inpath.endswith(in_suffix)):
+            continue
+        outpath = inpath.replace(in_suffix, out_suffix)
+        if os.path.exists(outpath):
+            continue
+        try:
+            parsed = load_replay(inpath)
+        except (Exception if ignore_errors else ()):
+            continue
+        with compressed(outpath) as handle:
+            pickle.dump(parsed, handle)
 
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)

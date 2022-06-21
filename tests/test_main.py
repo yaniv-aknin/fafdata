@@ -1,4 +1,5 @@
 import os
+import pickle
 import copy
 from click.testing import CliRunner
 import responses
@@ -6,11 +7,33 @@ import responses
 import conftest
 import json
 
-from fafscrape.main import extract_from_faf_api, transform_api_dump_to_jsonl
+from fafscrape.main import extract_from_faf_api, transform_api_dump_to_jsonl, unpack_replays_to_pickle
+from fafscrape.utils import decompressed
 
 def read_jsonl(path, num_lines):
     with open(path) as handle:
         return [json.loads(handle.readline()) for x in range(num_lines)]
+
+def test_unpack_replays_to_pickle():
+    replay_path = str(conftest.testdata / 'replay.v2.fafreplay')
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        os.system(f'cp {replay_path} .')
+        result = runner.invoke(unpack_replays_to_pickle, ['./replay.v2.fafreplay'])
+        assert result.exit_code == 0
+        with decompressed('./replay.v2.pickle.zstd') as handle:
+            data = pickle.load(handle)
+            assert 'json' in data
+
+def test_unpack_replays_to_pickle_errors():
+    replay_path = str(conftest.testdata / 'replay.v2.fafreplay')
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        os.system(f'dd if=/dev/urandom of=invalid.fafreplay bs=1k count=16')
+        result = runner.invoke(unpack_replays_to_pickle, ['./invalid.fafreplay', '--no-ignore-errors'])
+        assert result.exit_code == 1
+        result = runner.invoke(unpack_replays_to_pickle, ['./invalid.fafreplay', '--ignore-errors'])
+        assert result.exit_code == 0
 
 def test_transform_api_dump_to_jsonl_game():
     dump_path = conftest.testdata / 'games.json'

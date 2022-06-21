@@ -35,3 +35,14 @@ def test_decompressed():
         os.system('gzip foo')
         with U.decompressed('foo.gz') as handle:
             assert handle.read() == b'bar'
+
+def test_compressed():
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        with U.compressed('foo') as handle:
+            handle.write(b'bar')
+        with open('foo', 'rb') as handle:
+            assert handle.read() == b'bar'
+        with U.compressed('foo.gz') as handle:
+            handle.write(b'bar')
+        assert os.popen('zcat foo.gz', 'r').read() == 'bar'

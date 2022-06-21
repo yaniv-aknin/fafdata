@@ -40,3 +40,15 @@ def decompressed(path):
     else:
         with open(path, 'rb') as handle:
             yield handle
+
+@contextlib.contextmanager
+def compressed(path):
+    with open(path, 'wb') as handle:
+        if path.endswith('.gz'):
+            with subprocess.Popen('gzip', stdin=subprocess.PIPE, stdout=handle) as proc:
+                yield proc.stdin
+        elif path.endswith('zstd') or path.endswith('zst'):
+            with subprocess.Popen('zstd', stdin=subprocess.PIPE, stdout=handle) as proc:
+                yield proc.stdin
+        else:
+            yield handle
