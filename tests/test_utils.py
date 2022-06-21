@@ -3,7 +3,7 @@ import pathlib
 import datetime
 from click.testing import CliRunner
 
-import fafscrape.utils as U
+import fafdata.utils as U
 
 def test_parse_date():
     assert U.parse_date('1970-01-01') == datetime.date(1970, 1, 1)

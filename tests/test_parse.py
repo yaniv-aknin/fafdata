@@ -1,4 +1,4 @@
-from fafscrape.parse import byte_as_base64, load_replay, yield_commands, index_players
+from fafdata.parse import byte_as_base64, load_replay, yield_commands, index_players
 
 import conftest
 import pytest

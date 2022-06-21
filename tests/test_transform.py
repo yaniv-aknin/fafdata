@@ -1,5 +1,5 @@
 import os
-from fafscrape.transform import generic_transform, index_inclusions, PartitionedWriter
+from fafdata.transform import generic_transform, index_inclusions, PartitionedWriter
 
 def test_index_inclusions_empty(games_json):
     index = index_inclusions(games_json, ())

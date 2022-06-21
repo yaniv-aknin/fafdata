@@ -7,8 +7,8 @@ import responses
 import conftest
 import json
 
-from fafscrape.main import extract_from_faf_api, transform_api_dump_to_jsonl, parse_replays_to_pickle, dump_replay_commands_to_jsonl
-from fafscrape.utils import decompressed
+from fafdata.main import extract_from_faf_api, transform_api_dump_to_jsonl, parse_replays_to_pickle, dump_replay_commands_to_jsonl
+from fafdata.utils import decompressed
 
 def read_jsonl(path, num_lines):
     with decompressed(path) as handle:

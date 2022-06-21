@@ -6,7 +6,7 @@ import requests
 
 import pytest
 
-from fafscrape.fetch import construct_url, fetch_page
+from fafdata.fetch import construct_url, fetch_page
 
 SOME_DATE = datetime.date(1970, 1, 1)
 API_BASE = urlobject.URLObject('http://test')
