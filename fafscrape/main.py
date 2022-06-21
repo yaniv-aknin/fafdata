@@ -24,7 +24,7 @@ def verify_empty(ctx, param, output_directory):
 @click.option('--ignore-errors/--no-ignore-errors', default=True)
 @click.option('--in-suffix', default='.fafreplay')
 @click.option('--out-suffix', default='.pickle.zstd')
-def unpack_replays_to_pickle(inputs, ignore_errors, in_suffix, out_suffix):
+def parse_replays_to_pickle(inputs, ignore_errors, in_suffix, out_suffix):
     for inpath in inputs:
         if not(inpath.endswith(in_suffix)):
             continue
@@ -41,7 +41,7 @@ def unpack_replays_to_pickle(inputs, ignore_errors, in_suffix, out_suffix):
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
 @click.argument('output', type=click.File('w'), nargs=1)
-def parse_replay_commands_to_jsonl(inputs, output):
+def dump_replay_commands_to_jsonl(inputs, output):
     with click.progressbar(inputs, label='Dumping', file=sys.stderr) as bar:
         for input in bar:
             parsed = load_replay(input)
