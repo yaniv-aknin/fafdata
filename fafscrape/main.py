@@ -39,14 +39,19 @@ def parse_replays_to_pickle(inputs, ignore_errors, in_suffix, out_suffix):
             pickle.dump(parsed, handle)
 
 @click.command()
-@click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
-@click.argument('output', type=click.File('w'), nargs=1)
+@click.argument('inputs', type=click.Path(exists=True, dir_okay=True, path_type=pathlib.Path), nargs=-1)
+@click.argument('output', type=click.Path(dir_okay=False), nargs=1)
 def dump_replay_commands_to_jsonl(inputs, output):
-    with click.progressbar(inputs, label='Dumping', file=sys.stderr) as bar:
-        for input in bar:
-            parsed = load_replay(input)
+    inputs = list(inputs)
+    with compressed(output) as outhandle:
+        while inputs:
+            inpath = inputs.pop()
+            if inpath.is_dir():
+                inputs.extend(inpath.iterdir())
+                continue
+            parsed = load_replay(str(inpath))
             for cmd in yield_commands(parsed):
-                output.write(json.dumps(cmd)+'\n')
+                outhandle.write(json.dumps(cmd).encode()+b'\n')
 
 partition_strategies = {}
 def partition_by(f):

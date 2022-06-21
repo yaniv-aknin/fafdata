@@ -7,11 +7,11 @@ import responses
 import conftest
 import json
 
-from fafscrape.main import extract_from_faf_api, transform_api_dump_to_jsonl, parse_replays_to_pickle
+from fafscrape.main import extract_from_faf_api, transform_api_dump_to_jsonl, parse_replays_to_pickle, dump_replay_commands_to_jsonl
 from fafscrape.utils import decompressed
 
 def read_jsonl(path, num_lines):
-    with open(path) as handle:
+    with decompressed(path) as handle:
         return [json.loads(handle.readline()) for x in range(num_lines)]
 
 def test_parse_replays_to_pickle():
@@ -34,6 +34,35 @@ def test_parse_replays_to_pickle_errors():
         assert result.exit_code == 1
         result = runner.invoke(parse_replays_to_pickle, ['./invalid.fafreplay', '--ignore-errors'])
         assert result.exit_code == 0
+
+def test_dump_replay_commands_to_jsonl():
+    replay_path = str(conftest.testdata / 'replay.v2.fafreplay')
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        os.system(f'cp {replay_path} .')
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl'])
+        assert result.exit_code == 0
+        assert read_jsonl('out.jsonl', 1)[0]['id'] == '12519949'
+
+def test_dump_replay_commands_to_jsonl_compressed():
+    replay_path = str(conftest.testdata / 'replay.v2.fafreplay')
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        os.system(f'cp {replay_path} .')
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl.gz'])
+        assert result.exit_code == 0
+        assert read_jsonl('out.jsonl.gz', 1)[0]['id'] == '12519949'
+        GZ_MAGIC = b'\x1f\x8b'
+        assert open('out.jsonl.gz', 'rb').read(2) == GZ_MAGIC
+
+def test_dump_replay_commands_to_jsonl_directory():
+    replay_path = str(conftest.testdata / 'replay.v2.fafreplay')
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        os.system(f'mkdir foo ; cp {replay_path} foo')
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['foo', 'out.jsonl'])
+        assert result.exit_code == 0
+        assert read_jsonl('out.jsonl', 1)[0]['id'] == '12519949'
 
 def test_transform_api_dump_to_jsonl_game():
     dump_path = conftest.testdata / 'games.json'
