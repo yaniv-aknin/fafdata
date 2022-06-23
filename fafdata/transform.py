@@ -21,7 +21,7 @@ def embed(relationship, inclusion, index):
 
 def generic_transform(entity, embedding_index):
     result = transform_attributes(entity)
-    for relationship, inclusion in entity['relationships'].items():
+    for relationship, inclusion in entity.get('relationships', {}).items():
         inclusion = inclusion['data']
         if not inclusion:
             continue
