@@ -1,0 +1,13 @@
+    [
+      { "mode": "NULLABLE", "name": "id", "type": "STRING" },
+      { "mode": "NULLABLE", "name": "visible", "type": "BOOLEAN" },
+      { "mode": "NULLABLE", "name": "order", "type": "INTEGER" },
+      { "mode": "NULLABLE", "name": "fileExtension", "type": "STRING" },
+      { "mode": "NULLABLE", "name": "technicalName", "type": "STRING" },
+      { "mode": "NULLABLE", "name": "gitUrl", "type": "STRING" },
+      { "mode": "NULLABLE", "name": "displayName", "type": "STRING" },
+      { "mode": "NULLABLE", "name": "description", "type": "STRING" },
+      { "mode": "NULLABLE", "name": "allowOverride", "type": "BOOLEAN" },
+      { "mode": "NULLABLE", "name": "deploymentWebhook", "type": "STRING" },
+      { "mode": "NULLABLE", "name": "gitBranch", "type": "STRING" }
+    ]
