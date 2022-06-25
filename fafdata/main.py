@@ -1,4 +1,5 @@
 import sys
+import re
 import os
 import pathlib
 import datetime
@@ -38,10 +39,19 @@ def parse_replays_to_pickle(inputs, ignore_errors, in_suffix, out_suffix):
         with compressed(outpath) as handle:
             pickle.dump(parsed, handle)
 
+def parse_regexes(regex_specs):
+    result = {}
+    for spec in regex_specs:
+        column, _, regex = spec.partition('/')
+        result[column] = re.compile(regex)
+    return result
+
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=True, path_type=pathlib.Path), nargs=-1)
 @click.argument('output', type=click.Path(dir_okay=False), nargs=1)
-def dump_replay_commands_to_jsonl(inputs, output):
+@click.option('--regex', multiple=True)
+def dump_replay_commands_to_jsonl(inputs, output, regex):
+    column_to_pattern = parse_regexes(regex)
     inputs = list(inputs)
     with compressed(output) as outhandle:
         while inputs:
@@ -51,6 +61,12 @@ def dump_replay_commands_to_jsonl(inputs, output):
                 continue
             parsed = load_replay(str(inpath))
             for cmd in yield_commands(parsed):
+                try:
+                    for column, pattern in column_to_pattern.items():
+                        if not pattern.match(cmd[column]):
+                            raise IndexError()
+                except IndexError:
+                    continue
                 outhandle.write(json.dumps(cmd).encode()+b'\n')
 
 partition_strategies = {}

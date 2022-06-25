@@ -46,6 +46,12 @@ def test_dump_replay_commands_to_jsonl():
         assert result.exit_code == 0
         assert read_jsonl('out.jsonl', 1)[0]['id'] == '12519949'
 
+def test_dump_replay_commands_to_jsonl_regex():
+    with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl', '--regex', 'type/message'])
+        assert result.exit_code == 0
+        assert read_jsonl('out.jsonl', 1)[0]['type'] == 'message:notify'
+
 def test_dump_replay_commands_to_jsonl_compressed():
     with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
         result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl.gz'])
