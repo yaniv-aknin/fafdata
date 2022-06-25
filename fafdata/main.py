@@ -15,13 +15,6 @@ from .utils import parse_date, is_dir_populated, decompressed, compressed
 from .parse import load_replay
 from .dump import process_commands
 
-def verify_empty(ctx, param, output_directory):
-    if not output_directory.exists():
-        output_directory.mkdir()
-    if is_dir_populated(output_directory):
-        click.confirm(f"{output_directory} isn't empty. Do you want to continue?", abort=True)
-    return output_directory
-
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
 @click.option('--ignore-errors/--no-ignore-errors', default=True)
@@ -95,14 +88,14 @@ def partition_by(f):
 
 @partition_by
 def single_file(base, datum):
-    return base / 'xformed.jsonl'
+    return base
 
 @partition_by
 def year_month(base, datum):
     return base / f'dt={datum["startTime"][:4]}-01-01' / f'{datum["startTime"][:7]}-01.jsonl'
 
 @click.command()
-@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=verify_empty)
+@click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=True, path_type=pathlib.Path))
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
 @click.option('--embed-inclusion', multiple=True)
 @click.option('--partition-strategy', type=click.Choice(partition_strategies), default=next(iter(partition_strategies)))
@@ -126,6 +119,13 @@ def invocation_metadata(**kwargs):
     }
     metadata.update(**kwargs)
     return metadata
+
+def verify_empty(ctx, param, output_directory):
+    if not output_directory.exists():
+        output_directory.mkdir()
+    if is_dir_populated(output_directory):
+        click.confirm(f"{output_directory} isn't empty. Do you want to continue?", abort=True)
+    return output_directory
 
 @click.command()
 @click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=verify_empty)
