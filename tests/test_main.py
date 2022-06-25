@@ -131,7 +131,7 @@ def test_extract_from_faf_api(games_json):
     with isolated_file(pre_cmd='mkdir output') as (runner, path):
         result = runner.invoke(extract_from_faf_api, ['output', 'game', '--start-date=1970-01-01', '--end-date=1970-01-01', '--max-pages=1'])
         assert result.exit_code == 0
-        assert set(os.listdir('output')) == {'game.metadata.json', 'game0001.json'}
+        assert set(os.listdir('output')) == {'metadata.game.json', 'game0001.json'}
 
 @responses.activate
 def test_extract_from_faf_api_date_field(games_json):

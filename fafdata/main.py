@@ -154,7 +154,7 @@ def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_
     url_constructor = functools.partial(construct_url, entity, include, date_field, page_size, start_date_obj, end_date_obj, filters=filters)
     generator = yield_pages(url_constructor, start_page, max_pages=max_pages)
 
-    with open(output/f'{entity}.metadata.json', 'w') as handle:
+    with open(output/f'metadata.{entity}.json', 'w') as handle:
         metadata = invocation_metadata(start_date=start_date, end_date=end_date, date_field=date_field, max_pages=max_pages,
                                        sample_url=url_constructor(page_number=start_page))
         json.dump(metadata, handle, indent=4)
