@@ -1,4 +1,4 @@
-# faf-data
+# fafdata
 
 A set of utilities to scrape api.faforever.com and associated replays. The intention is to reconstruct (part) of the [Forged Alliance Forver](http://faforver.com) database as a public BigQuery dataset.
 
