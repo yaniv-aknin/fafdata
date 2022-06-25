@@ -52,6 +52,19 @@ def test_dump_replay_commands_to_jsonl_regex():
         assert result.exit_code == 0
         assert read_jsonl('out.jsonl', 1)[0]['type'] == 'message:notify'
 
+def test_dump_replay_commands_to_jsonl_jsonpath():
+    with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl', '--jsonpath', 'foo/json.uid'])
+        assert result.exit_code == 0
+        assert json.loads(read_jsonl('out.jsonl', 1)[0]['payload']) == {"foo": [12519949]}
+
+def test_dump_replay_commands_to_jsonl_jsonpath_single_value():
+    with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
+        result = runner.invoke(dump_replay_commands_to_jsonl, [
+            './replay.v2.fafreplay', 'out.jsonl', '--jsonpath', 'foo@/json.uid', '--regex', 'type/metadata'])
+        assert result.exit_code == 0
+        assert json.loads(read_jsonl('out.jsonl', 1)[0]['payload']) == {"foo": 12519949}
+
 def test_dump_replay_commands_to_jsonl_compressed():
     with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
         result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl.gz'])

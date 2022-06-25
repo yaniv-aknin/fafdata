@@ -5,13 +5,15 @@ import pathlib
 import datetime
 import functools
 import json
+import jsonpath_ng
 import click
 import pickle
 
 from .transform import process_page, PartitionedWriter
 from .fetch import construct_url, API_BASE, ENTITY_TYPE_TO_DEFAULT_DATE_FIELD, yield_pages, write_json
 from .utils import parse_date, is_dir_populated, decompressed, compressed
-from .parse import load_replay, yield_commands
+from .parse import load_replay
+from .dump import process_commands
 
 def verify_empty(ctx, param, output_directory):
     if not output_directory.exists():
@@ -46,12 +48,25 @@ def parse_regexes(regex_specs):
         result[column] = re.compile(regex)
     return result
 
+def parse_jsonpaths(jsonpath_specs):
+    result = {}
+    for spec in jsonpath_specs:
+        column, _, jsonpath = spec.partition('/')
+        expr = jsonpath_ng.parse(jsonpath)
+        if column.endswith('@'):
+            result[column[:-1]] = expr, True
+        else:
+            result[column] = expr, False
+    return result
+
 @click.command()
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=True, path_type=pathlib.Path), nargs=-1)
 @click.argument('output', type=click.Path(dir_okay=False), nargs=1)
 @click.option('--regex', multiple=True)
-def dump_replay_commands_to_jsonl(inputs, output, regex):
+@click.option('--jsonpath', multiple=True)
+def dump_replay_commands_to_jsonl(inputs, output, regex, jsonpath):
     column_to_pattern = parse_regexes(regex)
+    column_to_jsonpath = parse_jsonpaths(jsonpath)
     inputs = list(inputs)
     with compressed(output) as outhandle:
         while inputs:
@@ -60,13 +75,7 @@ def dump_replay_commands_to_jsonl(inputs, output, regex):
                 inputs.extend(inpath.iterdir())
                 continue
             parsed = load_replay(str(inpath))
-            for cmd in yield_commands(parsed):
-                try:
-                    for column, pattern in column_to_pattern.items():
-                        if not pattern.match(cmd[column]):
-                            raise IndexError()
-                except IndexError:
-                    continue
+            for cmd in process_commands(parsed, column_to_pattern, column_to_jsonpath):
                 outhandle.write(json.dumps(cmd).encode()+b'\n')
 
 partition_strategies = {}
