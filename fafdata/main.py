@@ -28,6 +28,7 @@ def verify_empty(ctx, param, output_directory):
 @click.option('--in-suffix', default='.fafreplay')
 @click.option('--out-suffix', default='.pickle.zstd')
 def parse_replays_to_pickle(inputs, ignore_errors, in_suffix, out_suffix):
+    "Parses a downloaded `.fafreplay` file into a `.pickle`; this speeds up subsequent use of the replay."
     for inpath in inputs:
         if not(inpath.endswith(in_suffix)):
             continue
@@ -41,18 +42,28 @@ def parse_replays_to_pickle(inputs, ignore_errors, in_suffix, out_suffix):
         with compressed(outpath) as handle:
             pickle.dump(parsed, handle)
 
-def parse_regexes(regex_specs):
+def parse_regexes(ctx, param, value):
     result = {}
-    for spec in regex_specs:
+    for spec in value:
+        if not '/' in spec:
+            raise click.BadParameter("format must be `column/regex`")
         column, _, regex = spec.partition('/')
-        result[column] = re.compile(regex)
+        try:
+            result[column] = re.compile(regex)
+        except re.error as error:
+            raise click.BadParameter(f'invalid regex: {error}')
     return result
 
-def parse_jsonpaths(jsonpath_specs):
+def parse_jsonpaths(ctx, param, value):
     result = {}
-    for spec in jsonpath_specs:
+    for spec in value:
+        if not '/' in spec:
+            raise click.BadParameter("format must be `column(@?)/jsonpath`")
         column, _, jsonpath = spec.partition('/')
-        expr = jsonpath_ng.parse(jsonpath)
+        try:
+            expr = jsonpath_ng.parse(jsonpath)
+        except jsonpath_ng.exceptions.JsonPathParserError as error:
+            raise click.BadParameter(error)
         if column.endswith('@'):
             result[column[:-1]] = expr, True
         else:
@@ -60,13 +71,12 @@ def parse_jsonpaths(jsonpath_specs):
     return result
 
 @click.command()
+@click.argument('output', type=click.Path(dir_okay=False))
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=True, path_type=pathlib.Path), nargs=-1)
-@click.argument('output', type=click.Path(dir_okay=False), nargs=1)
-@click.option('--regex', multiple=True)
-@click.option('--jsonpath', multiple=True)
-def dump_replay_commands_to_jsonl(inputs, output, regex, jsonpath):
-    column_to_pattern = parse_regexes(regex)
-    column_to_jsonpath = parse_jsonpaths(jsonpath)
+@click.option('--regex', 'regexes', multiple=True, help="Given zero or more `column/regex` values, it will filter lines where `column` doesn't match `regex`", callback=parse_regexes)
+@click.option('--jsonpath', 'jsonpaths', multiple=True, help="Given zero or more `key/jsonpath` values, it will replace the payload with a JSON having `key: jsonpath_evaluation_result`", callback=parse_jsonpaths)
+def dump_replay_commands_to_jsonl(output, inputs, regexes, jsonpaths):
+    "Dumps the content of a replay into a JSONL file to be loaded."
     inputs = list(inputs)
     with compressed(output) as outhandle:
         while inputs:
@@ -75,7 +85,7 @@ def dump_replay_commands_to_jsonl(inputs, output, regex, jsonpath):
                 inputs.extend(inpath.iterdir())
                 continue
             parsed = load_replay(str(inpath))
-            for cmd in process_commands(parsed, column_to_pattern, column_to_jsonpath):
+            for cmd in process_commands(parsed, regexes, jsonpaths):
                 outhandle.write(json.dumps(cmd).encode()+b'\n')
 
 partition_strategies = {}
@@ -92,12 +102,13 @@ def year_month(base, datum):
     return base / f'dt={datum["startTime"][:4]}-01-01' / f'{datum["startTime"][:7]}-01.jsonl'
 
 @click.command()
-@click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
 @click.argument('output', type=click.Path(writable=True, dir_okay=True, file_okay=False, path_type=pathlib.Path), callback=verify_empty)
+@click.argument('inputs', type=click.Path(exists=True, dir_okay=False), nargs=-1)
 @click.option('--embed-inclusion', multiple=True)
 @click.option('--partition-strategy', type=click.Choice(partition_strategies), default=next(iter(partition_strategies)))
 @click.option('--dedup-on-field', default='id')
-def transform_api_dump_to_jsonl(inputs, output, embed_inclusion, partition_strategy, dedup_on_field):
+def transform_api_dump_to_jsonl(output, inputs, embed_inclusion, partition_strategy, dedup_on_field):
+    "Transform extracted JSON files into JSONL files ready for loading to a data lake."
     get_path_for_datum = functools.partial(partition_strategies[partition_strategy], output)
     dedup_key = None if not dedup_on_field else lambda x: x[dedup_on_field]
     with PartitionedWriter(get_path_for_datum, dedup_key=dedup_key) as writer:
@@ -129,6 +140,7 @@ def invocation_metadata(**kwargs):
 @click.option('--filters', multiple=True, help='Extra filters to add')
 @click.option('--pretty-json/--no-pretty-json', default=True)
 def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json, filters):
+    "Scrapes models from `api.faforver.com`, storing them as JSONs on disk."
     max_pages = max_pages or float('inf')
 
     if date_field is None:

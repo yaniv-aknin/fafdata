@@ -42,32 +42,32 @@ def test_parse_replays_to_pickle_errors():
 
 def test_dump_replay_commands_to_jsonl():
     with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
-        result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl'])
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['out.jsonl', './replay.v2.fafreplay'])
         assert result.exit_code == 0
         assert read_jsonl('out.jsonl', 1)[0]['id'] == '12519949'
 
 def test_dump_replay_commands_to_jsonl_regex():
     with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
-        result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl', '--regex', 'type/message'])
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['out.jsonl', './replay.v2.fafreplay', '--regex', 'type/message'])
         assert result.exit_code == 0
         assert read_jsonl('out.jsonl', 1)[0]['type'] == 'message:notify'
 
 def test_dump_replay_commands_to_jsonl_jsonpath():
     with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
-        result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl', '--jsonpath', 'foo/json.uid'])
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['out.jsonl', './replay.v2.fafreplay', '--jsonpath', 'foo/json.uid'])
         assert result.exit_code == 0
         assert json.loads(read_jsonl('out.jsonl', 1)[0]['payload']) == {"foo": [12519949]}
 
 def test_dump_replay_commands_to_jsonl_jsonpath_single_value():
     with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
         result = runner.invoke(dump_replay_commands_to_jsonl, [
-            './replay.v2.fafreplay', 'out.jsonl', '--jsonpath', 'foo@/json.uid', '--regex', 'type/metadata'])
+            'out.jsonl', './replay.v2.fafreplay', '--jsonpath', 'foo@/json.uid', '--regex', 'type/metadata'])
         assert result.exit_code == 0
         assert json.loads(read_jsonl('out.jsonl', 1)[0]['payload']) == {"foo": 12519949}
 
 def test_dump_replay_commands_to_jsonl_compressed():
     with isolated_file('replay.v2.fafreplay', 'cp {path} .') as (runner, path):
-        result = runner.invoke(dump_replay_commands_to_jsonl, ['./replay.v2.fafreplay', 'out.jsonl.gz'])
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['out.jsonl.gz', './replay.v2.fafreplay'])
         assert result.exit_code == 0
         assert read_jsonl('out.jsonl.gz', 1)[0]['id'] == '12519949'
         GZ_MAGIC = b'\x1f\x8b'
@@ -75,13 +75,13 @@ def test_dump_replay_commands_to_jsonl_compressed():
 
 def test_dump_replay_commands_to_jsonl_directory():
     with isolated_file('replay.v2.fafreplay', 'mkdir foo ; cp {path} foo') as (runner, path):
-        result = runner.invoke(dump_replay_commands_to_jsonl, ['foo', 'out.jsonl'])
+        result = runner.invoke(dump_replay_commands_to_jsonl, ['out.jsonl', 'foo'])
         assert result.exit_code == 0
         assert read_jsonl('out.jsonl', 1)[0]['id'] == '12519949'
 
 def test_transform_api_dump_to_jsonl_game():
     with isolated_file('games.json', 'mkdir output') as (runner, path):
-        result = runner.invoke(transform_api_dump_to_jsonl, [path, 'output'])
+        result = runner.invoke(transform_api_dump_to_jsonl, ['output', path])
         assert result.exit_code == 0
         xformed, = read_jsonl('output/xformed.jsonl', 1)
         assert xformed['id'] == '14395974'
@@ -92,14 +92,14 @@ def test_transform_api_dump_to_jsonl_game_deduped():
         games = json.load(open(path))
         games['data'].insert(1, copy.deepcopy(games['data'][0]))
         json.dump(games, open('games_duplicate.json', 'w'))
-        result = runner.invoke(transform_api_dump_to_jsonl, ['games_duplicate.json', 'output'])
+        result = runner.invoke(transform_api_dump_to_jsonl, ['output', 'games_duplicate.json'])
         assert result.exit_code == 0
         g1, g2, = read_jsonl('output/xformed.jsonl', 2)
         assert g1['id'] != g2['id']
     with runner.isolated_filesystem():
         os.mkdir('output')
         json.dump(games, open('games_duplicate.json', 'w'))
-        result = runner.invoke(transform_api_dump_to_jsonl, ['--dedup-on-field', '', 'games_duplicate.json', 'output'])
+        result = runner.invoke(transform_api_dump_to_jsonl, ['output', '--dedup-on-field', '', 'games_duplicate.json'])
         assert result.exit_code == 0
         g1, g2, = read_jsonl('output/xformed.jsonl', 2)
         assert g1['id'] == g2['id']
@@ -107,19 +107,19 @@ def test_transform_api_dump_to_jsonl_game_deduped():
 def test_transform_api_dump_to_jsonl_game_gzipped():
     with isolated_file('games.json', 'mkdir output') as (runner, path):
         os.system(f'cp {path} . && gzip games.json')
-        result = runner.invoke(transform_api_dump_to_jsonl, ['games.json.gz', 'output'])
+        result = runner.invoke(transform_api_dump_to_jsonl, ['output', 'games.json.gz'])
         assert result.exit_code == 0
 
 def test_transform_api_dump_to_jsonl_game_partitioned():
     with isolated_file('games.json', 'mkdir output') as (runner, path):
-        result = runner.invoke(transform_api_dump_to_jsonl, ['--partition-strategy', 'year_month', path, 'output'])
+        result = runner.invoke(transform_api_dump_to_jsonl, ['--partition-strategy', 'year_month', 'output', path])
         assert result.exit_code == 0
         xformed, = read_jsonl('output/dt=2012-01-01/2012-12-01.jsonl', 1)
         assert xformed['id'] == '459322'
 
 def test_transform_api_dump_to_jsonl_player():
     with isolated_file('players.json', 'mkdir output') as (runner, path):
-        result = runner.invoke(transform_api_dump_to_jsonl, [path, 'output'])
+        result = runner.invoke(transform_api_dump_to_jsonl, ['output', path])
         assert result.exit_code == 0
         xformed, = read_jsonl('output/xformed.jsonl', 1)
         assert xformed['id'] == '368434'
