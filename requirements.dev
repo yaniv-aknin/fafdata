@@ -1,5 +1,6 @@
 pudb
 py
 pytest
+pytest-cov
 pytest-pudb
 responses

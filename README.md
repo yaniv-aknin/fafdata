@@ -1,5 +1,7 @@
 # fafdata
 
+![Build Status](https://github.com/yaniv-aknin/fafdata/actions/workflows/test.yml/badge.svg?branch=main)
+
 A set of data engineering utilities to ETL or ELT data from `api.faforever.com` and associated replays into BigQuery or similar platforms. The intention is to reconstruct (part) of the [Forged Alliance Forver](http://faforver.com) database as a public BigQuery dataset.
 
 The utilities are meant to run in one of two environments / mindsets:
