@@ -1,0 +1,13 @@
+[
+    { "mode": "NULLABLE", "name": "id", "type": "STRING" },
+
+    { "mode": "NULLABLE", "name": "createTime", "type": "TIMESTAMP" },
+    { "mode": "NULLABLE", "name": "updateTime", "type": "TIMESTAMP" },
+    { "mode": "NULLABLE", "name": "meanBefore", "type": "FLOAT" },
+    { "mode": "NULLABLE", "name": "deviationBefore", "type": "FLOAT" },
+    { "mode": "NULLABLE", "name": "meanAfter", "type": "FLOAT" },
+    { "mode": "NULLABLE", "name": "deviationAfter", "type": "FLOAT" },
+
+    { "mode": "NULLABLE", "name": "leaderboard_leaderboard_id", "type": "INTEGER" },
+    { "mode": "NULLABLE", "name": "gamePlayerStats_gamePlayerStats_id", "type": "INTEGER" }
+]
