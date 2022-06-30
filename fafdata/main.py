@@ -68,7 +68,8 @@ def parse_jsonpaths(ctx, param, value):
 @click.argument('inputs', type=click.Path(exists=True, dir_okay=True, path_type=pathlib.Path), nargs=-1)
 @click.option('--regex', 'regexes', multiple=True, help="Given zero or more `column/regex` values, it will filter lines where `column` doesn't match `regex`", callback=parse_regexes)
 @click.option('--jsonpath', 'jsonpaths', multiple=True, help="Given zero or more `key/jsonpath` values, it will replace the payload with a JSON having `key: jsonpath_evaluation_result`", callback=parse_jsonpaths)
-def dump_replay_commands_to_jsonl(output, inputs, regexes, jsonpaths):
+@click.option('--flatten/--no-flatten', help="Flatten the payload onto the record itself")
+def dump_replay_commands_to_jsonl(output, inputs, regexes, jsonpaths, flatten):
     "Dumps the content of a replay into a JSONL file to be loaded."
     inputs = list(inputs)
     with compressed(output) as outhandle:
@@ -78,7 +79,7 @@ def dump_replay_commands_to_jsonl(output, inputs, regexes, jsonpaths):
                 inputs.extend(inpath.iterdir())
                 continue
             parsed = load_replay(str(inpath))
-            for cmd in process_commands(parsed, regexes, jsonpaths):
+            for cmd in process_commands(parsed, regexes, jsonpaths, flatten):
                 outhandle.write(json.dumps(cmd).encode()+b'\n')
 
 partition_strategies = {}

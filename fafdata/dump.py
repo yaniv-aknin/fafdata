@@ -57,12 +57,15 @@ def yield_commands(parsed):
                # but leave some mark in the reply binary
                'player': player_name_to_id.get(player)}
 
-def process_commands(parsed, filters, jsonpaths):
+def process_commands(parsed, filters, jsonpaths, flatten):
     for cmd in yield_commands(parsed):
         if is_dropped_by_regex(cmd, filters):
             continue
         payload = cmd.pop('payload')
         if jsonpaths:
             payload = extract_jsonpaths(payload, jsonpaths)
-        cmd['payload'] = json.dumps(payload, default=byte_as_base64)
+        if flatten:
+            cmd.update(payload)
+        else:
+            cmd['payload'] = json.dumps(payload, default=byte_as_base64)
         yield cmd
