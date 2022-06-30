@@ -36,7 +36,21 @@
 
             { "mode": "NULLABLE", "name": "player_player_id", "type": "STRING" },
             { "mode": "NULLABLE", "name": "game_game_id", "type": "STRING" },
-            { "mode": "REPEATED", "name": "ratingChanges_leaderboardRatingJournal_id", "type": "STRING" }
+            { "mode": "REPEATED", "name": "ratingChanges_leaderboardRatingJournal", "type": "RECORD",
+                "fields": [
+                    { "mode": "NULLABLE", "name": "id", "type": "STRING" },
+
+                    { "mode": "NULLABLE", "name": "createTime", "type": "TIMESTAMP" },
+                    { "mode": "NULLABLE", "name": "updateTime", "type": "TIMESTAMP" },
+                    { "mode": "NULLABLE", "name": "meanBefore", "type": "FLOAT" },
+                    { "mode": "NULLABLE", "name": "deviationBefore", "type": "FLOAT" },
+                    { "mode": "NULLABLE", "name": "meanAfter", "type": "FLOAT" },
+                    { "mode": "NULLABLE", "name": "deviationAfter", "type": "FLOAT" },
+
+                    { "mode": "NULLABLE", "name": "leaderboard_leaderboard_id", "type": "INTEGER" },
+                    { "mode": "NULLABLE", "name": "gamePlayerStats_gamePlayerStats_id", "type": "INTEGER" }
+                ]
+            }
         ]
     }
 ]
