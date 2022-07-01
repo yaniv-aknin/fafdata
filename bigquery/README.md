@@ -31,3 +31,7 @@ bq load --autodetect --source_format=NEWLINE_DELIMITED_JSON faf.games transforme
 # the output includes the schema in JSON format
 bq show --format=prettyjson faf.games
 ```
+
+## Constants
+
+There are a few files to help resolve constant values into their in-game meaning (like that faction `1` is `UEF`, or that blueprint `ual0303` is a T3 [Harbinger](https://supcom.fandom.com/wiki/Aeon_T3_Heavy_Assault_Bot)). I've stored them in `functions.sql` which defines translation functions fixed views and a `.jsonl` file which can be loaded into a small `units` table.
