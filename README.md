@@ -13,17 +13,20 @@ The utilities are meant to run in one of two environments / mindsets:
 
 Using this toolkit, I've scraped the API and created a dataset of all `game` models and some associated models (`player`, `gamePlayerStats`, `mapVersion`, etc).
 
-[![Dashboard of resulting data](https://user-images.githubusercontent.com/101657/175792157-8cdea1bf-a01e-4a42-afb7-13aeb0b54dbb.png)][Datastudio Dashboard]
+It lets you make stuff like this:
+![Scatter plot panels](https://user-images.githubusercontent.com/101657/177016397-5a47fe4d-862a-489b-8610-3e28487ea06c.png)
 
-At the time of this writing, there are two public ways to use this dataset:
+At the time of this writing, there are three public ways to use this dataset:
 
 * A simple [Datastudio Dashboard] for quick browsing
-* A publicly accessible BigQuery dataset for your own queries
-  * Try [pinning][pinning a project] the `fafalytics` project in Cloud Console
+* A [Kaggle dataset] where I've flattened, filtered and documented two CSVs
+* A publicly accessible BigQuery dataset for your own queries (← the good stuff is here)
   * Try the query ``SELECT COUNT(id) FROM `fafalytics.faf_eu.games` WHERE DATE(startTime) = "2022-01-01"`` \
     (you might [pay][public query pricing] a tiny amount for this)
+  * Try [pinning][pinning a project] the `fafalytics` project in Cloud Console
 
 [Datastudio Dashboard]: https://datastudio.google.com/reporting/ad26e447-e1fd-4856-b7d0-78447dfcfde7
+[Kaggle dataset]: https://www.kaggle.com/datasets/yanivaknin/fafdata
 [pinning a project]: https://cloud.google.com/bigquery/docs/bigquery-web-ui#pinning_adding_a_project
 [public query pricing]: https://cloud.google.com/bigquery/public-data#share_a_dataset_with_the_public
 
