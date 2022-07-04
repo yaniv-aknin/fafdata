@@ -21,7 +21,7 @@ At the time of this writing, there are three public ways to use this dataset:
 * A simple [Datastudio Dashboard] for quick browsing
 * A [Kaggle dataset] where I've flattened, filtered and documented two CSVs
 * A publicly accessible BigQuery dataset for your own queries (← the good stuff is here)
-  * Try the query ``SELECT COUNT(id) FROM `fafalytics.faf_eu.games` WHERE DATE(startTime) = "2022-01-01"`` \
+  * Try the query ``SELECT COUNT(id) FROM `fafalytics.faf.games` WHERE DATE(startTime) = "2022-01-01"`` \
     (you might [pay][public query pricing] a tiny amount for this)
   * Try [pinning][pinning a project] the `fafalytics` project in Cloud Console
 
