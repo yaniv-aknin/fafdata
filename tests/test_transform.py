@@ -1,17 +1,13 @@
 import os
-from fafdata.transform import generic_transform, index_inclusions, PartitionedWriter
-
-def test_index_inclusions_empty(games_json):
-    index = index_inclusions(games_json, ())
-    assert not index
+from fafdata.transform import generic_transform, index_inclusions, PartitionedWriter, Inclusions
 
 def test_index_inclusions(games_json):
-    index = index_inclusions(games_json, ['player'])
-    assert index['player']['248159']['login'] == 'Pistachios'
+    index = index_inclusions(games_json)
+    assert index['player']['248159']['attributes']['login'] == 'Pistachios'
 
 def test_transform_game(games_json):
     raw_game = games_json['data'][0]
-    xform_game = generic_transform(raw_game, {})
+    xform_game = generic_transform(raw_game, Inclusions({}, ()), [])
     assert xform_game['name'] == 'GreatGrapes Vs Pistachios'
     assert xform_game['endTime'] == '2021-04-28 04:39:55'
     assert xform_game['featuredMod_featuredMod_id'] == '6'
@@ -20,24 +16,28 @@ def test_transform_game(games_json):
 
 def test_transform_many_games(games_json):
     for raw_game in games_json['data']:
-        xform_game = generic_transform(raw_game, {})
+        xform_game = generic_transform(raw_game, Inclusions({}, ()), [])
         assert 'name' in xform_game
 
 def test_transform_game_with_embedded_inclusions(games_json):
-    index = index_inclusions(games_json, ['player'])
+    index = index_inclusions(games_json)
     raw_game = games_json['data'][0]
-    xform_game = generic_transform(raw_game, index)
+    inclusions = Inclusions(index, ('host',))
+    xform_game = generic_transform(raw_game, inclusions, [])
     assert xform_game['name'] == 'GreatGrapes Vs Pistachios'
     assert xform_game['host_player']['login'] == 'GreatGrapes'
 
-    index = index_inclusions(games_json, ['gamePlayerStats'])
+def test_transform_game_with_recursive_inclusions(games_json):
+    index = index_inclusions(games_json)
     raw_game = games_json['data'][0]
-    xform_game = generic_transform(raw_game, index)
+    inclusions = Inclusions(index, ('playerStats', 'playerStats.ratingChanges'))
+    xform_game = generic_transform(raw_game, inclusions, [])
     assert xform_game['name'] == 'GreatGrapes Vs Pistachios'
     assert xform_game['host_player_id'] == '405147'
     assert xform_game['playerStats_gamePlayerStats'][0]['faction'] == 4
     assert xform_game['playerStats_gamePlayerStats'][0]['scoreTime'] == '2021-04-28 04:39:55'
     assert xform_game['playerStats_gamePlayerStats'][0]['player_player_id'] == '405147'
+    assert xform_game['playerStats_gamePlayerStats'][0]['ratingChanges_leaderboardRatingJournal'][0]['leaderboard_leaderboard_id'] == '2'
 
 def test_partitioned_writer_one_path(tmp_path):
     with PartitionedWriter(lambda x: tmp_path / "x.out") as pw:

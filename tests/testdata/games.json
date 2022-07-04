@@ -1705,6 +1705,58 @@
                     ]
                 }
             }
+        },
+        {
+            "type": "leaderboardRatingJournal",
+            "id": "12587773",
+            "attributes": {
+                "createTime": "2021-04-28T04:39:55Z",
+                "deviationAfter": 168.5,
+                "deviationBefore": 179.445,
+                "meanAfter": 950.545,
+                "meanBefore": 1002.36,
+                "updateTime": "2021-04-28T04:39:55Z"
+            },
+            "relationships": {
+                "gamePlayerStats": {
+                    "data": {
+                        "type": "gamePlayerStats",
+                        "id": "28030408"
+                    }
+                },
+                "leaderboard": {
+                    "data": {
+                        "type": "leaderboard",
+                        "id": "2"
+                    }
+                }
+            }
+        },
+        {
+            "type": "leaderboardRatingJournal",
+            "id": "12587774",
+            "attributes": {
+                "createTime": "2021-04-28T04:39:55Z",
+                "deviationAfter": 67.3744,
+                "deviationBefore": 67.2253,
+                "meanAfter": 1163.63,
+                "meanBefore": 1156.22,
+                "updateTime": "2021-04-28T04:39:55Z"
+            },
+            "relationships": {
+                "gamePlayerStats": {
+                    "data": {
+                        "type": "gamePlayerStats",
+                        "id": "28030409"
+                    }
+                },
+                "leaderboard": {
+                    "data": {
+                        "type": "leaderboard",
+                        "id": "2"
+                    }
+                }
+            }
         }
     ]
 }

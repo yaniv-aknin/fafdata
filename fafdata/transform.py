@@ -1,4 +1,5 @@
 import re
+import collections
 import json
 
 from .utils import faf_to_bigquery_datetime
@@ -13,43 +14,43 @@ def transform_attributes(entity):
         result[key] = value
     return result
 
-def embed(relationship, inclusion, index):
-    if inclusion['type'] not in index:
-        return f'{relationship}_{inclusion["type"]}_id', inclusion['id']
+def embed(relationship, reference, inclusions, path):
+    if '.'.join(path) not in inclusions.paths:
+        return f'{relationship}_{reference["type"]}_id', reference['id']
     else:
-        return f'{relationship}_{inclusion["type"]}', index[inclusion['type']][inclusion['id']]
+        entity = generic_transform(inclusions.index[reference['type']][reference['id']], inclusions, path)
+        return f'{relationship}_{reference["type"]}', entity
 
-def generic_transform(entity, embedding_index):
+def generic_transform(entity, inclusions, path):
     result = transform_attributes(entity)
-    for relationship, inclusion in entity.get('relationships', {}).items():
-        inclusion = inclusion['data']
-        if not inclusion:
+    for relationship, reference in entity.get('relationships', {}).items():
+        reference = reference['data']
+        if not reference:
             continue
-        if type(inclusion) is list:
-            related_type = inclusion[0]['type']
-            for datum in inclusion:
-                assert datum['type'] == related_type
-                embedding_key, embedded_value = embed(relationship, datum, embedding_index)
+        if type(reference) is list:
+            related_type = reference[0]['type']
+            for ref_element in reference:
+                assert ref_element['type'] == related_type
+                embedding_key, embedded_value = embed(relationship, ref_element, inclusions, path + [relationship])
                 result.setdefault(embedding_key, []).append(embedded_value)
         else:
-            related_type = inclusion['type']
-            embedding_key, embedded_value = embed(relationship, inclusion, embedding_index)
+            related_type = reference['type']
+            embedding_key, embedded_value = embed(relationship, reference, inclusions, path + [relationship])
             result[embedding_key] = embedded_value
     return result
 
-def index_inclusions(page, types_to_index):
-    if not types_to_index:
-        return {}
-    index = {inclusion_type: {} for inclusion_type in types_to_index}
-    for entity in page['included']:
-        if entity['type'] in types_to_index:
-            index[entity['type']][entity['id']] = generic_transform(entity, embedding_index={})
+Inclusions = collections.namedtuple('Inclusions', ['index', 'paths'])
+
+def index_inclusions(page):
+    index = collections.defaultdict(dict)
+    for entity in page.get('included', []):
+        index[entity['type']][entity['id']] = entity
     return index
 
-def process_page(page, embed_inclusion_types=None):
-    embedding_index = index_inclusions(page, embed_inclusion_types)
+def process_page(page, inclusion_paths):
+    inclusions = Inclusions(index_inclusions(page), inclusion_paths)
     for entity in page['data']:
-        yield generic_transform(entity, embedding_index)
+        yield generic_transform(entity, inclusions, [])
 
 class PartitionedWriter:
     """A class meant to sequentially write to many files in unguaranteed order.
