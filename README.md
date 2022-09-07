@@ -4,11 +4,6 @@
 
 A data engineering toolkit to extract metadata and replays from `api.faforever.com` and load it into a data lake like BigQuery. The intention is to reconstruct (part) of the [Forged Alliance Forver](http://faforver.com) database as a public BigQuery dataset.
 
-The utilities are meant to run in one of two environments / mindsets:
-
-* As CLI used interactively by a human (i.e., to establish a historic baseline dataset)
-* As webapp invoked on schedule (i.e., to append daily diffs)
-
 ## The dataset
 
 Using this toolkit, I've scraped the API and created a dataset of all `game` models and some associated models (`player`, `gamePlayerStats`, `mapVersion`, etc).
@@ -43,10 +38,6 @@ An overview of all utilities:
 * `faf.transform`: Transform extracted JSON files into JSONL files ready for loading to a data lake.
 * `faf.parse`: Parses a downloaded `.fafreplay` file into a `.pickle`; this speeds up subsequent dumps of the replay.
 * `faf.dump`: Dumps the content of a replay (raw `.fafreplay` or pre-parsed `.pickle`) into a JSONL file to be loaded to the lake.
-
-## The webapp
-
-The webapp is still a work in progress and isn't yet finished/deployed (i.e., nothing updates the dataset automatically).
 
 ## Epilogue
 

@@ -1,4 +1,3 @@
-Flask
 click
 requests
 URLObject
