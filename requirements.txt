@@ -1,6 +1,0 @@
-click
-requests
-URLObject
-zstd
-jsonpath-ng
-git+https://github.com/yaniv-aknin/faf-scfa-replay-parser@9d0cb7c#egg=replay_parser

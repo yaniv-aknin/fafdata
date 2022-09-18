@@ -1,7 +1,0 @@
-pudb
-py
-pytest
-pytest-cov
-pytest-mock
-pytest-pudb
-responses

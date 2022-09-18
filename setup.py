@@ -18,5 +18,22 @@ setup(
                             'faf.extract=fafdata.main:extract_from_faf_api',
                             'faf.parse=fafdata.main:parse_replays_to_pickle',
                             'faf.dump=fafdata.main:dump_replay_commands_to_jsonl'],
-    }
+    },
+    install_requires = [
+        'click',
+        'requests',
+        'URLObject',
+        'zstd',
+        'jsonpath-ng',
+        'replay_parser @ git+https://github.com/yaniv-aknin/faf-scfa-replay-parser@9d0cb7c#egg=replay_parser',
+    ],
+    extras_require = {
+        'testing': [
+            'py',
+            'pytest',
+            'pytest-cov',
+            'pytest-mock',
+            'responses',
+        ],
+    },
 )
