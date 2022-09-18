@@ -1,4 +1,5 @@
 import json
+import time
 import datetime
 import requests
 import urlobject
@@ -35,12 +36,13 @@ def fetch_page(url):
     response.raise_for_status()
     return response.json()
 
-def yield_pages(url_constructor, start_page=1, max_pages=float('inf')):
+def yield_pages(url_constructor, start_page=1, max_page=float('inf'), inter_page_sleep=0):
     current_page = start_page
     page = fetch_page(url_constructor(page_number=current_page))
     yield page
-    max_pages = min(max_pages, page['meta']['page']['totalPages'])
-    while current_page < max_pages:
+    max_page = min(max_page, page['meta']['page']['totalPages'])
+    while current_page < max_page:
+        time.sleep(inter_page_sleep)
         current_page += 1
         yield fetch_page(url_constructor(page_number=current_page))
 

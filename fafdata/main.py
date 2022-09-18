@@ -135,14 +135,15 @@ def verify_empty(ctx, param, output_directory):
 @click.option('--start-date', help='Query first date; %Y-%m-%d for specific day or "-N" for N days ago', default='-2')
 @click.option('--end-date', help='Query last date; %Y-%m-%d for specific day or "-N" for N days ago', default='-1')
 @click.option('--page-size', type=click.INT, default=10, help='How many entities per page')
-@click.option('--start-page', type=click.INT, default=1, help='Which page to start at (i.e., resume)')
-@click.option('--max-pages', type=click.INT, default=10, help='Stop download after this many pages')
+@click.option('--start-page', type=click.INT, default=1, help='Start downloading at this page number (e.g. to resume a download)')
+@click.option('--max-page', type=click.INT, default=10, help='Stop downloading after this page number (e.g. for a partial download)')
+@click.option('--inter-page-sleep', type=click.INT, default=0, help='Sleep this many seconds between pages (to avoid overwhelming the API)')
 @click.option('--include', multiple=True, help='Which related entities to include')
 @click.option('--filters', multiple=True, help='Extra filters to add')
 @click.option('--pretty-json/--no-pretty-json', default=True)
-def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_pages, include, pretty_json, filters):
+def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_size, start_page, max_page, inter_page_sleep, include, pretty_json, filters):
     "Scrapes models from `api.faforver.com`, storing them as JSONs on disk."
-    max_pages = max_pages or float('inf')
+    max_page = max_page or float('inf')
 
     if date_field is None:
         if entity not in ENTITY_TYPE_TO_DEFAULT_DATE_FIELD:
@@ -153,15 +154,15 @@ def extract_from_faf_api(output, entity, date_field, start_date, end_date, page_
     end_date_obj = parse_date(end_date)
 
     url_constructor = functools.partial(construct_url, entity, include, date_field, page_size, start_date_obj, end_date_obj, filters=filters)
-    generator = yield_pages(url_constructor, start_page, max_pages=max_pages)
+    generator = yield_pages(url_constructor, start_page, max_page=max_page, inter_page_sleep=inter_page_sleep)
 
     with open(output/f'metadata.{entity}.json', 'w') as handle:
-        metadata = invocation_metadata(start_date=start_date, end_date=end_date, date_field=date_field, max_pages=max_pages,
+        metadata = invocation_metadata(start_date=start_date, end_date=end_date, date_field=date_field, max_page=max_page,
                                        sample_url=url_constructor(page_number=start_page))
         json.dump(metadata, handle, indent=4)
 
     first_page = next(generator)
-    length = min(max_pages, first_page['meta']['page']['totalPages']) - start_page
+    length = min(max_page, first_page['meta']['page']['totalPages']) - start_page
     with click.progressbar(length=length, label='Scraping API', file=sys.stderr) as bar:
         write_json(output / f'{entity}{start_page:04d}.json', first_page, pretty_json)
         bar.update(1)

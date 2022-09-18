@@ -1,4 +1,5 @@
 import datetime
+import time
 import urlobject
 
 import responses
@@ -6,7 +7,7 @@ import requests
 
 import pytest
 
-from fafdata.fetch import construct_url, fetch_page
+from fafdata.fetch import construct_url, fetch_page, yield_pages
 
 SOME_DATE = datetime.date(1970, 1, 1)
 API_BASE = urlobject.URLObject('http://test')
@@ -48,3 +49,16 @@ def test_fetch_page():
     responses.add(method='GET', url='http://test', json={'errors': 'not found'}, status=404)
     with pytest.raises(requests.exceptions.HTTPError):
         page = fetch_page('http://test')   
+
+@responses.activate
+def test_yield_pages(mocker):
+    mocker.patch('time.sleep')
+    url_constructor = lambda page_number: f'http://x/?page={page_number}'
+    generator = yield_pages(url_constructor, inter_page_sleep=5, max_page=3, start_page=2)
+    responses.add(method='GET', url='http://x/?page=2', json={'meta': {'page': {'totalPages': 4}}})
+    assert 'meta' in next(generator)
+    responses.add(method='GET', url='http://x/?page=3', json={'meta': {'page': {'totalPages': 4}}})
+    assert 'meta' in next(generator)
+    time.sleep.assert_called_once_with(5)
+    with pytest.raises(StopIteration):
+        next(generator)

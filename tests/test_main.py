@@ -129,19 +129,19 @@ def test_extract_from_faf_api(games_json):
            'filter=startTime%3Dge%3D1970-01-01T00%3A00%3A00Z%3BstartTime%3Dle%3D1970-01-01T00%3A00%3A00Z&sort=startTime')
     responses.add(method='GET', url=url, json=games_json)
     with isolated_file(pre_cmd='mkdir output') as (runner, path):
-        result = runner.invoke(extract_from_faf_api, ['output', 'game', '--start-date=1970-01-01', '--end-date=1970-01-01', '--max-pages=1'])
+        result = runner.invoke(extract_from_faf_api, ['output', 'game', '--start-date=1970-01-01', '--end-date=1970-01-01', '--max-page=1'])
         assert result.exit_code == 0
         assert set(os.listdir('output')) == {'metadata.game.json', 'game0001.json'}
 
 @responses.activate
 def test_extract_from_faf_api_date_field(games_json):
     with isolated_file(pre_cmd='mkdir output') as (runner, path):
-        result = runner.invoke(extract_from_faf_api, ['output', 'foo', '--start-date=1970-01-01', '--end-date=1970-01-01', '--max-pages=1'])
+        result = runner.invoke(extract_from_faf_api, ['output', 'foo', '--start-date=1970-01-01', '--end-date=1970-01-01', '--max-page=1'])
         # should fail because the unknown entity 'foo' requires setting --date-field
         assert result.exit_code == 2
         url = ('https://api.faforever.com/data/foo?page%5Bsize%5D=10&page%5Bnumber%5D=1&page%5Btotals%5D=&'
                'filter=bar%3Dge%3D1970-01-01T00%3A00%3A00Z%3Bbar%3Dle%3D1970-01-01T00%3A00%3A00Z&sort=bar')
         responses.add(method='GET', url=url, json=games_json)
-        result = runner.invoke(extract_from_faf_api, ['output', 'foo', '--start-date=1970-01-01', '--end-date=1970-01-01', '--max-pages=1', '--date-field=bar'])
+        result = runner.invoke(extract_from_faf_api, ['output', 'foo', '--start-date=1970-01-01', '--end-date=1970-01-01', '--max-page=1', '--date-field=bar'])
         # now succeeds because --date-field is specified
         assert result.exit_code == 0
