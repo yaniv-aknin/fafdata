@@ -5,29 +5,24 @@ import json
 import replay_parser.replay
 import replay_parser.constants
 import zlib
-import zstd
+import zstandard
 
 TICK_SIZE_IN_MILLISECONDS = 100
 
 from .utils import decompressed
 
-def extract_v1(buf):
-    decoded = base64.decodebytes(buf)
-    decoded = decoded[4:] # skip 4 bytes of zlib stream length
-    return zlib.decompress(decoded)
-
-def extract_v2(buf):
-    return zstd.decompress(buf)
-
 def read_header_and_body(handle):
     ALL_COMMANDS = tuple(range(24))
     header = json.loads(handle.readline().decode())
-    buf = handle.read()
     version = header.get('version', 1)
     if version == 1:
-        extracted = extract_v1(buf)
+        buf = handle.read()
+        decoded = base64.decodebytes(buf)
+        decoded = decoded[4:] # skip 4 bytes of zlib stream length
+        extracted = zlib.decompress(decoded)
     elif version == 2:
-        extracted = extract_v2(buf)
+        dctx = zstandard.ZstdDecompressor()
+        extracted = b"".join(dctx.read_to_iter(handle))
     else:
         raise ValueError("unknown version %s" % version)
     body = replay_parser.replay.parse(extracted, store_body=True, parse_commands=ALL_COMMANDS)

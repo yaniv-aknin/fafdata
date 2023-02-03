@@ -23,7 +23,7 @@ setup(
         'click',
         'requests',
         'URLObject',
-        'zstd',
+        'zstandard',
         'jsonpath-ng',
         'replay_parser @ git+https://github.com/yaniv-aknin/faf-scfa-replay-parser@9d0cb7c#egg=replay_parser',
     ],
